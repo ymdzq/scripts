@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2199
+# shellcheck disable=SC2086
+# shellcheck source=/dev/null
+#
+# Copyright (C) 2020-22 UtsavBalar1231 <utsavbalar1231@gmail.com>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#HOME="/opt/shiro"
+# Set current date
+DATE=$(date +"%d.%m.%y")
+
+# Set our directory
+OUT_DIR=out/
+
+VERSION="IMMENSITY-X-elish-${DATE}"
+
+# Export Zip name
+export ZIPNAME="${VERSION}.zip"
+
+dts_source=arch/arm64/boot/dts/vendor/qcom
+
+
+# Set compiler Path
+    PATH=${HOME}/gas:${HOME}/clang/bin/:$PATH
+    export LD_LIBRARY_PATH=${HOME}/clang/lib64:${LD_LIBRARY_PATH}
+
+# Make defconfig
+make -j8 ARCH=arm64 O=out/ LLVM=1 CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_COMPAT=arm-linux-gnueabi- elish_defconfig
+
+# AOSPA Build
+echo "------ Starting AOSPA Build ------"
+os=aospa
+
+scripts/config --file ${OUT_DIR}/.config \
+    -d SDCARD_FS \
+    -e UNICODE
+
+make -j8 ARCH=arm64 O=out/ LLVM=1 CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_COMPAT=arm-linux-gnueabi- 2>&1 | tee build.log
+
+find ${OUT_DIR}/arch/arm64/boot/dts/vendor/qcom -name '*.dtb' -exec cat {} + > ${OUT_DIR}/arch/arm64/boot/dtb
+
+mkdir -p $HOME/anykernel/kernels/aospa
+# Import Anykernel3 folder
+if [[ -f ${OUT_DIR}/arch/arm64/boot/Image.gz ]]; then
+    cp ${OUT_DIR}/arch/arm64/boot/Image.gz $HOME/anykernel/kernels/aospa
+else
+    cp ${OUT_DIR}/arch/arm64/boot/Image $HOME/anykernel/kernels/aospa
+fi
+cp ${OUT_DIR}/arch/arm64/boot/dtb $HOME/anykernel/kernels/aospa
+cp ${OUT_DIR}/arch/arm64/boot/dtbo.img $HOME/anykernel/kernels/aospa
+echo "------ Finishing AOSPA Build ------"
+
+cd $HOME/anykernel || exit
+zip -r9 "${ZIPNAME}" ./* -x .git .gitignore ./*.zip
+
+CHECKER=$(find ./ -maxdepth 1 -type f -name "${ZIPNAME}" -printf "%s\n")
+if (($((CHECKER / 1048576)) > 5)); then
+    echo "✅Kernel compiled successfully in $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds for elish"
+else
+    echo "✅Kernel compile failed"
+fi
+cd "$(pwd)" || exit
+
