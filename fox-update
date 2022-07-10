@@ -1,0 +1,7 @@
+#!/bin/bash
+cd ~/fox_11.0
+	~/bin/repo sync
+	cd ~/fox_11.0/bootable/recovery/
+	git pull --recurse-submodules
+	cd ~/fox_11.0/vendor/recovery/
+	git pull

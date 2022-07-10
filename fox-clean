@@ -1,0 +1,4 @@
+#!/bin/bash
+cd ~/fox_11.0
+source build/envsetup.sh
+mka -j8 clean
