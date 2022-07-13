@@ -12,4 +12,4 @@ cd ~/fox_12.1
 	cd ~/fox_12.1/vendor/recovery/
 	git pull
 	cd ~/fox_12.1/system/core/;
-	git fetch https://gerrit.twrp.me/android_system_core refs/changes/53/5653/1 && git cherry-pick FETCH_HEAD;
+	git fetch https://gerrit.twrp.me/android_system_core refs/changes/75/5675/6 && git cherry-pick FETCH_HEAD;
