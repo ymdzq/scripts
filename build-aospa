@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2199
-# shellcheck disable=SC2086
 # shellcheck source=/dev/null
 #
 # Copyright (C) 2020-22 UtsavBalar1231 <utsavbalar1231@gmail.com>
@@ -16,59 +15,151 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#HOME="/opt/shiro"
-# Set current date
-DATE=$(date +"%d.%m.%y")
+
+# Start cleanup of previous build
+if [[ -d anykernel ]]; then
+	rm -fr $(pwd)/anykernel/
+fi
+
+if [[ -f ${OUT_DIR}/arch/arm64/boot/dtb ]]; then
+	rm -fr ${OUT_DIR}/arch/arm64/boot/dtb
+fi
+
+if [[ -f ${OUT_DIR}/arch/arm64/boot/Image.gz ]]; then
+	rm -fr ${OUT_DIR}/arch/arm64/boot/Image.gz
+elif [[ -f ${OUT_DIR}/arch/arm64/boot/Image ]]; then
+	rm -fr ${OUT_DIR}/arch/arm64/boot/Image
+fi
+
+if [[ -f ${OUT_DIR}/arch/arm64/boot/dtbo.img ]]; then
+	rm -fr ${OUT_DIR}/arch/arm64/boot/dtbo.img
+fi
+
+KBUILD_COMPILER_STRING=$(${HOME}/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
+KBUILD_LINKER_STRING=$(${HOME}/clang/bin/ld.lld --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//' | sed 's/(compatible with [^)]*)//')
+export KBUILD_COMPILER_STRING
+export KBUILD_LINKER_STRING
+
+cp -r $HOME/anykernel ./
+
+#
+# Enviromental Variables
+#
+
+DATE=$(date +"%Y-%m-%d-%H%M")
+DEVICE="elish"
 
 # Set our directory
 OUT_DIR=out/
 
-VERSION="IMMENSITY-X-elish-${DATE}"
+VERSION="IMMENSITY-X-${DEVICE^^}-LTO-${DATE}"
 
 # Export Zip name
 export ZIPNAME="${VERSION}.zip"
 
+# How much kebabs we need? Kanged from @raphielscape :)
+if [[ -z "${KEBABS}" ]]; then
+    COUNT="$(grep -c '^processor' /proc/cpuinfo)"
+    export KEBABS="$((COUNT + 2))"
+fi
+
+echo "Jobs: ${KEBABS}"
+
+ARGS="ARCH=arm64 \
+O=${OUT_DIR} \
+LLVM=1 \
+CLANG_TRIPLE=aarch64-linux-gnu- \
+CROSS_COMPILE=aarch64-linux-gnu- \
+CROSS_COMPILE_COMPAT=arm-linux-gnueabi- \
+-j${KEBABS}"
+
 dts_source=arch/arm64/boot/dts/vendor/qcom
 
+function enable_lto() {
+    scripts/config --file ${OUT_DIR}/.config \
+        -e LTO_CLANG
+
+    # Make olddefconfig
+    cd ${OUT_DIR} || exit
+    make -j${KEBABS} ${ARGS} olddefconfig
+    cd ../ || exit
+}
+
+function disable_lto() {
+    scripts/config --file ${OUT_DIR}/.config \
+        -d LTO_CLANG
+
+    # Make olddefconfig
+    cd ${OUT_DIR} || exit
+    make -j${KEBABS} ${ARGS} olddefconfig
+    cd ../ || exit
+}
+
+function pack_image_build() {
+    mkdir -p anykernel/kernels/$1
+
+    # Check if the kernel is built
+    if [[ -f ${OUT_DIR}/System.map ]]; then
+        if [[ -f ${OUT_DIR}/arch/arm64/boot/Image.gz ]]; then
+            cp ${OUT_DIR}/arch/arm64/boot/Image.gz anykernel/kernels/$1
+        elif [[ -f ${OUT_DIR}/arch/arm64/boot/Image ]]; then
+            cp ${OUT_DIR}/arch/arm64/boot/Image anykernel/kernels/$1
+        else
+            echo "❎ Kernel compile failed"
+        fi
+    else
+        echo "❎ Kernel compile failed"
+    fi
+
+    cp ${OUT_DIR}/arch/arm64/boot/dtb anykernel/kernels/$1
+    cp ${OUT_DIR}/arch/arm64/boot/dtbo.img anykernel/kernels/$1
+}
+
+START=$(date +"%s")
 
 # Set compiler Path
-    PATH=${HOME}/gas:${HOME}/clang/bin/:$PATH
-    export LD_LIBRARY_PATH=${HOME}/clang/lib64:${LD_LIBRARY_PATH}
+PATH=${HOME}/gas:${HOME}/clang/bin/:$PATH
+export LD_LIBRARY_PATH=${HOME}/clang/lib64:$LD_LIBRARY_PATH
 
 # Make defconfig
-make -j8 ARCH=arm64 O=out/ LLVM=1 CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_COMPAT=arm-linux-gnueabi- elish_defconfig
+make -j${KEBABS} ${ARGS} "${DEVICE}"_defconfig
 
 # AOSPA Build
 echo "------ Starting AOSPA Build ------"
 os=aospa
 
-scripts/config --file ${OUT_DIR}/.config \
-    -d SDCARD_FS \
-    -e UNICODE
+# Make defconfig
+make -j${KEBABS} ${ARGS} "${DEVICE}"_defconfig
 
-make -j8 ARCH=arm64 O=out/ LLVM=1 CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_COMPAT=arm-linux-gnueabi- 2>&1 | tee build.log
+enable_lto
 
-find ${OUT_DIR}/arch/arm64/boot/dts/vendor/qcom -name '*.dtb' -exec cat {} + > ${OUT_DIR}/arch/arm64/boot/dtb
+# Make olddefconfig
+cd ${OUT_DIR} || exit
+make -j${KEBABS} ${ARGS} CC="ccache clang" HOSTCC="ccache gcc" HOSTCXX="cache g++" olddefconfig
+cd ../ || exit
 
-mkdir -p $HOME/anykernel/kernels/aospa
-# Import Anykernel3 folder
-if [[ -f ${OUT_DIR}/arch/arm64/boot/Image.gz ]]; then
-    cp ${OUT_DIR}/arch/arm64/boot/Image.gz $HOME/anykernel/kernels/aospa
-else
-    cp ${OUT_DIR}/arch/arm64/boot/Image $HOME/anykernel/kernels/aospa
-fi
-cp ${OUT_DIR}/arch/arm64/boot/dtb $HOME/anykernel/kernels/aospa
-cp ${OUT_DIR}/arch/arm64/boot/dtbo.img $HOME/anykernel/kernels/aospa
+make -j${KEBABS} ${ARGS} CC="ccache clang" HOSTCC="ccache gcc" HOSTCXX="ccache g++" 2>&1 | tee build.log
+
+find ${OUT_DIR}/$dts_source -name '*.dtb' -exec cat {} + >${OUT_DIR}/arch/arm64/boot/dtb
+
+pack_image_build ${os}
 echo "------ Finishing AOSPA Build ------"
 
-cd $HOME/anykernel || exit
+END=$(date +"%s")
+DIFF=$((END - START))
+
+cd anykernel || exit
 zip -r9 "${ZIPNAME}" ./* -x .git .gitignore ./*.zip
 
-CHECKER=$(find ./ -maxdepth 1 -type f -name "${ZIPNAME}" -printf "%s\n")
+CHECKER=$(find ./ -maxdepth 1 -type f -name ${ZIPNAME} -printf "%s\n")
 if (($((CHECKER / 1048576)) > 5)); then
-    echo "✅Kernel compiled successfully in $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds for elish"
+    echo "✅ Kernel compiled successfully in $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds for ${DEVICE}"
 else
-    echo "✅Kernel compile failed"
+    echo "❎️ Kernel compile failed"
 fi
-cd "$(pwd)" || exit
+cd $(pwd) || exit
+
+echo ""
+echo -e $ZIPNAME " is ready!"
+echo ""
 
