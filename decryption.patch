@@ -1,0 +1,69 @@
+# Darth9's commit 2c3a96581dad432733fe6b316632104b2a210c76
+# Avoid decryption problems on some devices and ROMs, with a new build var
+
+diff --git a/Android.mk b/Android.mk
+index 68fa08351..040526006 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -138,6 +138,11 @@ ifneq ($(wildcard system/core/libsparse/Android.mk),)
+ LOCAL_SHARED_LIBRARIES += libsparse
+ endif
+ 
++# avoid decryption problems on some devices and ROMs
++ifeq ($(OF_FIX_DECRYPTION_ON_DATA_MEDIA),1)
++    LOCAL_CFLAGS += -DOF_FIX_DECRYPTION_ON_DATA_MEDIA='"1"'
++endif
++
+ ifeq ($(TW_OEM_BUILD),true)
+     LOCAL_CFLAGS += -DTW_OEM_BUILD
+     BOARD_HAS_NO_REAL_SDCARD := true
+diff --git a/partition.cpp b/partition.cpp
+index 5db278106..6fe3167af 100644
+--- a/partition.cpp
++++ b/partition.cpp
+@@ -665,6 +665,10 @@ void TWPartition::Setup_Data_Partition(bool Display_Error) {
+ 	UnMount(false);
+ 
+ #ifdef TW_INCLUDE_CRYPTO
++	#ifdef OF_FIX_DECRYPTION_ON_DATA_MEDIA
++	if (datamedia)
++		Setup_Data_Media();
++	#endif
+ 	Can_Be_Encrypted = true;
+ 	char crypto_blkdev[255];
+ 	property_get("ro.crypto.fs_crypto_blkdev", crypto_blkdev, "error");
+@@ -672,8 +676,10 @@ void TWPartition::Setup_Data_Partition(bool Display_Error) {
+ 		Set_FBE_Status();
+ 		Decrypted_Block_Device = crypto_blkdev;
+ 		LOGINFO("Data already decrypted, new block device: '%s'\n", crypto_blkdev);
++		#ifndef OF_FIX_DECRYPTION_ON_DATA_MEDIA
+ 		if (datamedia)
+ 			Setup_Data_Media();
++		#endif
+ 		DataManager::SetValue(TW_IS_ENCRYPTED, 0);
+ 	} else if (!Mount(false)) {
+ 		if (Is_Present) {
+@@ -696,9 +702,10 @@ void TWPartition::Setup_Data_Partition(bool Display_Error) {
+ 				LOGERR("Unable to decrypt FBE device\n");
+ 		} else {
+ 			DataManager::SetValue(TW_IS_ENCRYPTED, 0);
++			#ifndef OF_FIX_DECRYPTION_ON_DATA_MEDIA
+ 			if (datamedia)
+ 				Setup_Data_Media();
+-
++			#endif
+ 		}
+ 	}
+ 	if (datamedia && (!Is_Encrypted || (Is_Encrypted && Is_Decrypted))) {
+@@ -1212,7 +1219,11 @@ void TWPartition::Setup_Data_Media() {
+ 			Symlink_Mount_Point = "/sdcard";
+ 		}
+ 		Mount(false);
++		#ifdef OF_FIX_DECRYPTION_ON_DATA_MEDIA
++		if (Mount(false) && TWFunc::Path_Exists(Mount_Point + "/media/0")) {
++		#else
+ 		if (TWFunc::Path_Exists(Mount_Point + "/media/0")) {
++		#endif
+ 			Storage_Path = Mount_Point + "/media/0";
+ 			Symlink_Path = Storage_Path;
+ 			DataManager::SetValue(TW_INTERNAL_PATH, Mount_Point + "/media/0");
