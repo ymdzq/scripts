@@ -6,7 +6,6 @@ cd ~/fox_12.1
 	git reset --hard origin/fox_12.1
 	git pull --recurse-submodules
 	git submodule foreach --recursive git pull origin master
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/04/5404/2 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/39/5639/1 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/93/5693/4 && git cherry-pick FETCH_HEAD
 	git apply ~/5743.patch
