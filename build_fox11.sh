@@ -55,7 +55,7 @@ else
 fi
 
 # exports
-export OUT_DIR=$BASE_DIR/BUILDS
+export OUT_DIR=$BASE_DIR/$FOX_BRANCH/BUILDS
 export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL="C"
 export FOX_BUILD_DEVICE="$device"
