@@ -10,3 +10,5 @@
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/86/6286/1 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/87/6287/1 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/88/6288/1 && git cherry-pick FETCH_HEAD
+	cd ~/twrp/system/vold/
+	git fetch https://gerrit.twrp.me/android_system_vold refs/changes/36/6236/19 && git cherry-pick FETCH_HEAD
