@@ -3,7 +3,6 @@
 	cd ~/twrp/bootable/recovery/
 	git reset --hard origin/android-12.1
 	git pull
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/39/5639/1 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/93/5693/4 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/43/5743/1 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/84/6284/1 && git cherry-pick FETCH_HEAD
