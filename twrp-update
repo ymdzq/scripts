@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ~/twrp
+	~/bin/repo sync
 	cd ~/twrp/bootable/recovery/
 	git reset --hard origin/android-12.1
 	git pull
