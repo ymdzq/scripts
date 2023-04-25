@@ -13,6 +13,7 @@ cd ~/fox_12.1
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/86/6286/1 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/87/6287/1 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/88/6288/1 && git cherry-pick FETCH_HEAD
+	git apply ~/settings.patch
 	cd ~/fox_12.1/vendor/recovery/
 	git pull
 	cd ~/fox_12.1/system/vold/
