@@ -4,9 +4,9 @@ cd ~/fox_11.0
 	~/bin/repo sync
 	cd ~/fox_11.0/bootable/recovery/
 	git reset --hard origin/fox_11.0
-	git pull --recurse-submodules
-	git submodule foreach --recursive git pull origin master
+	git pull
 	git cherry-pick 2c3a9658
 	git apply ~/5743.patch
+	git apply ~/settings.patch
 	cd ~/fox_11.0/vendor/recovery/
 	git pull
