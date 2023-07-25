@@ -4,17 +4,9 @@ cd ~/fox_12.1
 	~/bin/repo sync
 	cd ~/fox_12.1/bootable/recovery/
 	git reset --hard origin/fox_12.1
-	git pull --recurse-submodules
-	git submodule foreach --recursive git pull origin master
+	git pull
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/93/5693/4 && git cherry-pick FETCH_HEAD
 	git apply ~/5743.patch
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/84/6284/1 && git cherry-pick FETCH_HEAD
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/85/6285/1 && git cherry-pick FETCH_HEAD
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/86/6286/1 && git cherry-pick FETCH_HEAD
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/87/6287/1 && git cherry-pick FETCH_HEAD
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/88/6288/1 && git cherry-pick FETCH_HEAD
 	git apply ~/settings.patch
 	cd ~/fox_12.1/vendor/recovery/
 	git pull
-	cd ~/fox_12.1/system/vold/
-	git fetch https://gerrit.twrp.me/android_system_vold refs/changes/36/6236/19 && git cherry-pick FETCH_HEAD
