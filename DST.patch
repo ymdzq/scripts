@@ -1,0 +1,13 @@
+diff --git a/data.cpp b/data.cpp
+index 7661d69e..1f3d2cc5 100755
+--- a/data.cpp
++++ b/data.cpp
+@@ -1163,7 +1163,7 @@ void DataManager::SetDefaultValues()
+   mPersist.SetValue(TW_TIME_ZONE_VAR, OF_DEFAULT_TIMEZONE);
+   mPersist.SetValue(TW_TIME_ZONE_GUISEL, OF_DEFAULT_TIMEZONE);
+   mPersist.SetValue(TW_TIME_ZONE_GUIOFFSET, "0");
+-  mPersist.SetValue(TW_TIME_ZONE_GUIDST, "1");
++  mPersist.SetValue(TW_TIME_ZONE_GUIDST, "0");
+
+   #ifdef FOX_VENDOR_BOOT_RECOVERY
+   mConst.SetValue(TW_AUTO_REFLASHTWRP_VAR, "0");
