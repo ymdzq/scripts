@@ -6,7 +6,6 @@ cd ~/fox_12.1
 	git reset --hard origin/fox_12.1
 	git pull
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/93/5693/4 && git cherry-pick FETCH_HEAD
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/09/6509/2 && git cherry-pick FETCH_HEAD
 	git apply ~/5743.patch
 	git apply ~/DST.patch
 	git apply ~/settings.patch
