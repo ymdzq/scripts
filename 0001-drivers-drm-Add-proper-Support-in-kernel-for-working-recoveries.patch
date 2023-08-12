@@ -1,0 +1,55 @@
+From 067af9d07203b4c979ebbc0c0f0339d242a11d38 Mon Sep 17 00:00:00 2001
+From: LesGaR <43041346+LesGaR@users.noreply.github.com>
+Date: Wed, 9 Aug 2023 14:35:10 +0000
+Subject: [PATCH] drivers: drm: Add proper Support in kernel for working recoveries
+
+---
+ techpack/display/msm/dsi/dsi_panel.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/techpack/display/msm/dsi/dsi_panel.c b/techpack/display/msm/dsi/dsi_panel.c
+index 22818f8..6c52cd1 100755
+--- a/techpack/display/msm/dsi/dsi_panel.c
++++ b/techpack/display/msm/dsi/dsi_panel.c
+@@ -1035,6 +1035,15 @@ static int dsi_panel_bl_unregister(struct dsi_panel *panel)
+ 	return rc;
+ }
+ 
++static bool in_recovery;
++
++static int __init boot_mode_setup(char *value)
++{
++	in_recovery = !strcmp(value, "1");
++	return 1;
++}
++__setup("androidboot.force_normal_boot=", boot_mode_setup);
++
+ static int dsi_panel_parse_timing(struct dsi_mode_info *mode,
+ 				  struct dsi_parser_utils *utils)
+ {
+@@ -1075,6 +1084,9 @@ static int dsi_panel_parse_timing(struct dsi_mode_info *mode,
+ 	rc = utils->read_u32(utils->data,
+ 				"qcom,mdss-dsi-panel-framerate",
+ 				&mode->refresh_rate);
++        if(!in_recovery)
++		mode->refresh_rate = 104;
++
+ 	if (rc) {
+ 		DSI_ERR("failed to read qcom,mdss-dsi-panel-framerate, rc=%d\n",
+ 		       rc);
+@@ -1627,6 +1639,12 @@ static int dsi_panel_parse_dfps_caps(struct dsi_panel *panel)
+ 	const char *type;
+ 	u32 i;
+ 
++        if(!in_recovery){
++		dfps_caps->dfps_support = false;
++		return rc;
++	}
++
++
+ 	supported = utils->read_bool(utils->data,
+ 			"qcom,mdss-dsi-pan-enable-dynamic-fps");
+ 
+--
+libgit2 1.6.4
+
