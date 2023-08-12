@@ -8,4 +8,3 @@ cd ~/twrp
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/93/5693/4 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/43/5743/2 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/31/6531/2 && git cherry-pick FETCH_HEAD
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/51/6551/1 && git cherry-pick FETCH_HEAD
