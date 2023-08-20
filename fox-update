@@ -9,5 +9,6 @@ cd ~/fox_12.1
 	git apply ~/5743.patch
 	git apply ~/DST.patch
 	git apply ~/settings.patch
+	git apply ~/AVB20.patch
 	cd ~/fox_12.1/vendor/recovery/
 	git pull
