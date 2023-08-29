@@ -1,0 +1,26 @@
+From 53edaee9b7985379bd749ac4a8673e145ba37fbd Mon Sep 17 00:00:00 2001
+From: ymdzq <233900743@qq.com>
+Date: Tue, 29 Aug 2023 20:24:31 +0800
+Subject: [PATCH] Set_FBE_Status: Add conditions to optimize judgment
+
+---
+ partition.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/partition.cpp b/partition.cpp
+index 4e67c88..ee6c595 100644
+--- a/partition.cpp
++++ b/partition.cpp
+@@ -781,7 +781,8 @@ void TWPartition::Set_FBE_Status() {
+ 	DataManager::SetValue(TW_IS_DECRYPTED, 1);
+ 	Is_Encrypted = true;
+ 	Is_Decrypted = true;
+-	if (Key_Directory.empty()) {
++	PartitionManager.Mount_By_Path("/metadata", false);
++	if (Key_Directory.empty() || !TWFunc::File_Exists(Key_Directory + "/key/encrypted_key")) {
+ 		Is_FBE = false;
+ 		DataManager::SetValue(TW_IS_FBE, 0);
+ 	} else {
+--
+libgit2 1.7.0
+
