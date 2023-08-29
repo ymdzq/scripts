@@ -1,0 +1,24 @@
+From 68aeef5f4c7d73c7c01e6ea23b55438c84d9d52f Mon Sep 17 00:00:00 2001
+From: ymdzq <233900743@qq.com>
+Date: Tue, 29 Aug 2023 20:23:39 +0800
+Subject: [PATCH] Update_Log_File: Remove /data/cache/command before reboot
+
+---
+ twrp-functions.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/twrp-functions.cpp b/twrp-functions.cpp
+index f9a6dbf..d9fc500 100755
+--- a/twrp-functions.cpp
++++ b/twrp-functions.cpp
+@@ -1039,6 +1039,7 @@ void TWFunc::Update_Log_File(void) {
+ 			}
+ 		}
+ 	}
++	if (TWFunc::File_Exists("/data/cache/command")) remove("/data/cache/command");
+ 	sync();
+ }
+ 
+--
+libgit2 1.7.0
+
