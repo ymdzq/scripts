@@ -1,6 +1,6 @@
-From 16c766d849d4f0d9595b89b55265011f07145b42 Mon Sep 17 00:00:00 2001
+From 8c90fa4eaea5219c3f2bf463c3e74d1810143c90 Mon Sep 17 00:00:00 2001
 From: ymdzq <233900743@qq.com>
-Date: Sun, 20 Aug 2023 10:24:35 +0800
+Date: Tue, 29 Aug 2023 20:20:26 +0800
 Subject: [PATCH] custom: Add disable AVB2.0 in advanced options
 
 ---
@@ -11,11 +11,11 @@ Subject: [PATCH] custom: Add disable AVB2.0 in advanced options
  gui/theme/common/watch.xml                 | 14 ++++++++++++++
  gui/theme/portrait_hdpi/pages/advanced.xml | 12 ++++++++++++
  gui/theme/portrait_hdpi/pages/settings.xml |  3 +++
- partitionmanager.cpp                       | 53 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ partitionmanager.cpp                       | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
  partitions.hpp                             |  1 +
  twrpinstall/twinstall.cpp                  |  2 ++
  variables.h                                |  1 +
- 11 files changed, 107 insertions(+)
+ 11 files changed, 105 insertions(+)
 
 diff --git a/data.cpp b/data.cpp
 index 7da54a2..3657087 100755
@@ -141,7 +141,7 @@ index ed32476..e0801c8 100644
  					<icon res="bs_adv_reboot"/>
  					<action function="set">tw_back=advanced</action>
 diff --git a/gui/theme/portrait_hdpi/pages/settings.xml b/gui/theme/portrait_hdpi/pages/settings.xml
-index 85520b7..ae98878 100644
+index 5410ff0..2ebb53b 100644
 --- a/gui/theme/portrait_hdpi/pages/settings.xml
 +++ b/gui/theme/portrait_hdpi/pages/settings.xml
 @@ -240,6 +240,9 @@
@@ -155,15 +155,13 @@ index 85520b7..ae98878 100644
  					<data variable="tw_signed_zip_verify"/>
  				</listitem>
 diff --git a/partitionmanager.cpp b/partitionmanager.cpp
-index bdf1006..08d8349 100755
+index 3db21f9..179bf4f 100755
 --- a/partitionmanager.cpp
 +++ b/partitionmanager.cpp
-@@ -206,6 +206,59 @@ void inline Reset_Prop_From_Partition(std::string prop, std::string def, TWParti
+@@ -206,6 +206,57 @@ void inline Reset_Prop_From_Partition(std::string prop, std::string def, TWParti
  	}
  }
  
-+static constexpr const char* __unused BOOT_DEV_PATH = "/dev/block/bootdevice/by-name/boot";
-+
 +#define AVB_MAGIC "AVB0"
 +#define AVB_MAGIC_LEN 4
 +#define AVB_VBMETA_FLAGS_OFFSET 123
@@ -243,7 +241,7 @@ index 35ccc4f..b60438b 100755
    return ret_val;
  }
 diff --git a/variables.h b/variables.h
-index 519b605..f902897 100644
+index 4aa76fa..186f54a 100644
 --- a/variables.h
 +++ b/variables.h
 @@ -227,6 +227,7 @@ static int Fox_Current_ROM_IsMIUI = 0; // is the currently installed ROM a MIUI 
