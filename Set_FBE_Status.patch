@@ -1,11 +1,14 @@
-From 53edaee9b7985379bd749ac4a8673e145ba37fbd Mon Sep 17 00:00:00 2001
+From 9faa830ab6089a64e789ebef09c79fe8fe2ad2cc Mon Sep 17 00:00:00 2001
 From: ymdzq <233900743@qq.com>
 Date: Tue, 29 Aug 2023 20:24:31 +0800
 Subject: [PATCH] Set_FBE_Status: Add conditions to optimize judgment
 
+twrp-functions: Add File_Exists function
 ---
- partition.cpp | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ partition.cpp      |  3 ++-
+ twrp-functions.cpp | 10 ++++++++++
+ twrp-functions.hpp |  1 +
+ 3 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/partition.cpp b/partition.cpp
 index 4e67c88..ee6c595 100644
@@ -21,6 +24,39 @@ index 4e67c88..ee6c595 100644
  		Is_FBE = false;
  		DataManager::SetValue(TW_IS_FBE, 0);
  	} else {
+diff --git a/twrp-functions.cpp b/twrp-functions.cpp
+index d9fc500..18eee00 100755
+--- a/twrp-functions.cpp
++++ b/twrp-functions.cpp
+@@ -855,6 +855,16 @@ bool TWFunc::Wait_For_Battery(std::chrono::nanoseconds timeout) {
+ 	return false;
+ }
+ 
++bool TWFunc::File_Exists(const string& path)
++{
++	struct stat st;
++
++	if (stat(path.c_str(), &st) == 0) {
++		return !S_ISDIR(st.st_mode);
++	}
++	return false;
++}
++
+ #ifndef BUILD_TWRPTAR_MAIN
+ 
+ // Returns "/path" from a full /path/to/file.name
+diff --git a/twrp-functions.hpp b/twrp-functions.hpp
+index baa727d..6143de4 100755
+--- a/twrp-functions.hpp
++++ b/twrp-functions.hpp
+@@ -90,6 +90,7 @@ public:
+ 	static int32_t timespec_diff_ms(timespec& start, timespec& end);            // Returns diff in ms
+ 	static bool Wait_For_File(const string& path, std::chrono::nanoseconds timeout); // Wait For File, True is success, False is timeout;
+ 	static bool Wait_For_Battery(std::chrono::nanoseconds timeout);             // Wait For /sys/class/power_supply/battery or TW_CUSTOM_BATTERY_PATH, True is success, False is timeout;
++	static bool File_Exists(const string& path);                                // File exists
+ 
+ #ifndef BUILD_TWRPTAR_MAIN
+ 	static void Write_MIUI_Install_Status(std::string install_status, bool verify);                                // Write last install status in to the /cache/recovery/last_status
 --
 libgit2 1.7.0
 
