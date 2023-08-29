@@ -1,0 +1,30 @@
+From 5a3b7e3857b0a0d5eacba9932800743d7dbf8c9e Mon Sep 17 00:00:00 2001
+From: ymdzq <233900743@qq.com>
+Date: Tue, 29 Aug 2023 20:26:18 +0800
+Subject: [PATCH] twrp-functions: Unmount the data partition when reboot
+
+---
+ twrp-functions.cpp | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/twrp-functions.cpp b/twrp-functions.cpp
+index d9fc500..b02c334 100755
+--- a/twrp-functions.cpp
++++ b/twrp-functions.cpp
+@@ -1080,6 +1080,13 @@ int TWFunc::tw_reboot(RebootCommand command)
+   	TWFunc::Run_Before_Reboot();
+   	// ----
+    
++	TWPartition *dataPart = PartitionManager.Find_Partition_By_Path("/data");
++	if (dataPart) {
++		if (dataPart->Is_Mounted()) {
++			dataPart->UnMount(false);
++		}
++	}
++
+ 	switch (command) {
+ 		case rb_current:
+ 		case rb_system:
+--
+libgit2 1.7.0
+
