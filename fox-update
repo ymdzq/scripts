@@ -6,9 +6,15 @@ cd ~/fox_12.1
 	git reset --hard origin/fox_12.1
 	git pull
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/93/5693/4 && git cherry-pick FETCH_HEAD
+	git apply ~/early-translation.patch
+	git apply ~/fastbootd-optimize.patch
+	git apply ~/Backup_Display_Name.patch
 	git apply ~/5743.patch
 	git apply ~/DST.patch
 	git apply ~/settings.patch
 	git apply ~/AVB20.patch
+	git apply ~/Update_Log_File.patch
+	git apply ~/Set_FBE_Status.patch
+	git apply ~/Unmount-data.patch
 	cd ~/fox_12.1/vendor/recovery/
 	git pull
