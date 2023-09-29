@@ -33,3 +33,8 @@ cd ~/twrp
 	git cherry-pick 9dfbd91
 	git cherry-pick dc23a47
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/31/6531/2 && git cherry-pick FETCH_HEAD
+	cd ~/twrp/system/vold/
+	git reset --hard TeamWin/android-12.1
+	git fetch https://gerrit.twrp.me/android_system_vold refs/changes/17/6617/1 && git cherry-pick FETCH_HEAD
+	git fetch https://gerrit.twrp.me/android_system_vold refs/changes/18/6618/1 && git cherry-pick FETCH_HEAD
+	git fetch https://gerrit.twrp.me/android_system_vold refs/changes/51/6651/1 && git cherry-pick FETCH_HEAD
