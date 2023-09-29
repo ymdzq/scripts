@@ -19,10 +19,10 @@ cd ~/twrp
 	git cherry-pick 37b2321
 	git cherry-pick 8dc9772
 	git cherry-pick a9f5446
-	git cherry-pick d0cdd70
-	git cherry-pick da8699e
-	git cherry-pick 0a5ec35
-	git cherry-pick fed53d8
+#	git cherry-pick d0cdd70
+#	git cherry-pick da8699e
+#	git cherry-pick 0a5ec35
+#	git cherry-pick fed53d8
 	git cherry-pick 49e4c2c
 	git cherry-pick 9da18ec
 	git cherry-pick 456a401
