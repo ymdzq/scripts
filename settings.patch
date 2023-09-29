@@ -10,4 +10,4 @@ index 5410ff0..85520b7 100644
 +				<listitem name="{@full_partition_list}">
  					<data variable="fox_adv_backup"/>
  				</listitem>
- 			</listbox>
+ 				<listitem name="{@keep_storage_data}">
