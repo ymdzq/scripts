@@ -213,9 +213,9 @@ index 3db21f9..179bf4f 100755
 +#endif
 +}
 +
- #ifdef TW_LEGACY_PROCESS_FSTAB
  int TWPartitionManager::Process_Fstab(string Fstab_Filename, bool Display_Error, bool recovery_mode) {
  	FILE *fstabFile;
+ 	char fstab_line[MAX_FSTAB_LINE_LENGTH];
 diff --git a/partitions.hpp b/partitions.hpp
 index a172af2..8199dae 100644
 --- a/partitions.hpp

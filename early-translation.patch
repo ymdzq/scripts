@@ -36,9 +36,9 @@ index c7c0756..66a72d3 100644
 +	DataManager::ReadSettingsFile();
 +	PageManager::LoadLanguage(DataManager::GetStrValue("tw_language"));
 +
- 	twrpAdbBuFifo *adb_bu_fifo = new twrpAdbBuFifo();
- 	TWFunc::Clear_Bootloader_Message();
- 
+ #ifdef TW_USE_HEALTH_SERVICES_FOR_BATTERY
+ 	std::string value;
+ 	static char charging = ' ';
 @@ -486,7 +489,7 @@ int main(int argc, char **argv) {
  	}
  
