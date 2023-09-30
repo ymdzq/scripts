@@ -125,7 +125,7 @@ index ed32476..e0801c8 100644
  					<icon res="maintainer"/>
  					<action function="page">maintainer</action>
  				</listitem>
-+				<listitem name="{@disable_avb2}">
++				<listitem name="{@disable_avb2=Disable AVB2.0}">
 +					<icon res="bs_btn_archive"/>
 +					<actions>
 +						<action function="set">tw_back=advanced</action>
@@ -148,7 +148,7 @@ index 5410ff0..2ebb53b 100644
  				<listitem name="{@use_rmrf_chk}">
  					<data variable="tw_rm_rf"/>
  				</listitem>
-+				<listitem name="{@auto_disable_avb2}">
++				<listitem name="{@auto_disable_avb2=Automatically disable AVB2.0}">
 +					<data variable="tw_auto_disable_avb2"/>
 +				</listitem>
  				<listitem name="{@zip_sig_chk}">
