@@ -158,8 +158,8 @@ diff --git a/partitionmanager.cpp b/partitionmanager.cpp
 index 3db21f9..179bf4f 100755
 --- a/partitionmanager.cpp
 +++ b/partitionmanager.cpp
-@@ -206,6 +206,57 @@ void inline Reset_Prop_From_Partition(std::string prop, std::string def, TWParti
- 	}
+@@ -206,6 +206,57 @@ void inline Process_Keymaster_Version(TWPartition *ven, bool Display_Error) {
+ 	android::base::SetProperty(TW_KEYMASTER_VERSION_PROP, version.c_str());
  }
  
 +#define AVB_MAGIC "AVB0"
