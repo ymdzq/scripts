@@ -6,32 +6,7 @@ cd ~/twrp
 	git reset --hard origin/android-12.1
 	git pull
 	git fetch https://github.com/sekaiacg/twrp_recovery android-12.1
-	git cherry-pick 6dcbc22
-	git cherry-pick 5ea8c37
-	git cherry-pick 309ad9c
-	git cherry-pick 5f6eae9
-	git cherry-pick 44d25de
-	git cherry-pick 0268084
-	git cherry-pick b0886c1
-	git cherry-pick 931e7ee
-	git cherry-pick 041139c
-	git cherry-pick c7275ae
-	git cherry-pick 37b2321
-	git cherry-pick 8dc9772
-	git cherry-pick a9f5446
-#	git cherry-pick d0cdd70
-#	git cherry-pick da8699e
-#	git cherry-pick 0a5ec35
-#	git cherry-pick fed53d8
-	git cherry-pick 49e4c2c
-	git cherry-pick 9da18ec
-	git cherry-pick 456a401
-	git cherry-pick 7c9e7d8
-	git cherry-pick 1d54fa3
-	git cherry-pick a9db110
-	git cherry-pick 51f1228
-	git cherry-pick 9dfbd91
-	git cherry-pick dc23a47
+	git cherry-pick 7669320..3ce052f
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/31/6531/2 && git cherry-pick FETCH_HEAD
 #	cd ~/twrp/system/vold/
 #	git reset --hard TeamWin/android-12.1
