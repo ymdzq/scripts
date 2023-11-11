@@ -1,131 +1,23 @@
-From 8c90fa4eaea5219c3f2bf463c3e74d1810143c90 Mon Sep 17 00:00:00 2001
+From 5595a9e1dd68313477635cf0cb9dd42b4fb5dd72 Mon Sep 17 00:00:00 2001
 From: ymdzq <233900743@qq.com>
-Date: Tue, 29 Aug 2023 20:20:26 +0800
-Subject: [PATCH] custom: Add disable AVB2.0 in advanced options
+Date: Sat, 11 Nov 2023 19:40:10 +0800
+Subject: [PATCH] 菜单页添加禁用avb2.0的按钮
 
 ---
- data.cpp                                   |  1 +
- gui/action.cpp                             | 12 ++++++++++++
- gui/objects.hpp                            |  1 +
- gui/theme/common/languages/en.xml          |  7 +++++++
- gui/theme/common/watch.xml                 | 14 ++++++++++++++
- gui/theme/portrait_hdpi/pages/advanced.xml | 12 ++++++++++++
- gui/theme/portrait_hdpi/pages/settings.xml |  3 +++
- partitionmanager.cpp                       | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
- partitions.hpp                             |  1 +
- twrpinstall/twinstall.cpp                  |  2 ++
- variables.h                                |  1 +
- 11 files changed, 105 insertions(+)
+ gui/theme/portrait_hdpi/pages/advanced.xml | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/data.cpp b/data.cpp
-index 7da54a2..3657087 100755
---- a/data.cpp
-+++ b/data.cpp
-@@ -1170,6 +1170,7 @@ void DataManager::SetDefaultValues()
-   mPersist.SetValue(TW_TIME_ZONE_GUISEL, OF_DEFAULT_TIMEZONE);
-   mPersist.SetValue(TW_TIME_ZONE_GUIOFFSET, "0");
-   mPersist.SetValue(TW_TIME_ZONE_GUIDST, "0");
-+  mPersist.SetValue(TW_AUTO_DISABLE_AVB2_VAR, "0");
- 
-   #ifdef FOX_VENDOR_BOOT_RECOVERY
-   mConst.SetValue(TW_AUTO_REFLASHTWRP_VAR, "0");
-diff --git a/gui/action.cpp b/gui/action.cpp
-index 9653106..b1ad682 100755
---- a/gui/action.cpp
-+++ b/gui/action.cpp
-@@ -293,6 +293,7 @@ GUIAction::GUIAction(xml_node <> *node):GUIObject(node)
-       ADD_ACTION(editfile);
- #endif
-       ADD_ACTION(mergesnapshots);
-+      ADD_ACTION(disableAVB2);
- 
-       //[f/d] Threaded actions
-       ADD_ACTION(batch);
-@@ -3037,3 +3038,14 @@ int GUIAction::mergesnapshots(string arg __unused) {
- 	operation_end(op_status);
- 	return 0;
- }
-+
-+int GUIAction::disableAVB2(string arg __unused) {
-+	int op_status = 1;
-+	operation_start("Disable AVB2.0");
-+	gui_highlight("disabling_AVB2=Disabling AVB2.0...");
-+	if (PartitionManager.Disable_AVB2(true)) {
-+		op_status = 0;
-+	}
-+	operation_end(op_status);
-+	return 0;
-+}
-diff --git a/gui/objects.hpp b/gui/objects.hpp
-index a8e26df..f7b38c0 100644
---- a/gui/objects.hpp
-+++ b/gui/objects.hpp
-@@ -440,6 +440,7 @@ protected:
- 	int enableadb(std::string arg);
- 	int enablefastboot(std::string arg);
- 	int mergesnapshots(std::string arg);
-+	int disableAVB2(std::string arg);
- 	int simulate;
- };
- 
-diff --git a/gui/theme/common/languages/en.xml b/gui/theme/common/languages/en.xml
-index e8813b2..b1fb79a 100644
---- a/gui/theme/common/languages/en.xml
-+++ b/gui/theme/common/languages/en.xml
-@@ -1194,5 +1194,12 @@
- 		<string name="reflash_twrp">Flash current OrangeFox</string>
- 		<string name="reflashing_twrp">Flashing OrangeFox...</string>
- 		<string name="reflash_twrp_complete">Done flashing OrangeFox</string>
-+		<string name="auto_disable_avb2">Automatically disable AVB2.0 after flashing ROM</string>
-+		<string name="disable_avb2">Disable AVB2.0</string>
-+		<string name="disable_avb2_confirm">Disable AVB2.0?</string>
-+		<string name="disabling_AVB2">Disabling AVB2.0...</string>
-+		<string name="disabling_AVB2_complete">AVB2.0 is disabled!</string>
-+		<string name="disable_avb2_success_msg">Disable AVB2.0: processing '{1}' successfully.</string>
-+		<string name="disable_avb2_fail_msg">Disable AVB2.0: processing '{1}' failed!</string>
- 	</resources>
- </language>
-diff --git a/gui/theme/common/watch.xml b/gui/theme/common/watch.xml
-index d2ed005..48847b2 100755
---- a/gui/theme/common/watch.xml
-+++ b/gui/theme/common/watch.xml
-@@ -3606,6 +3606,9 @@
- 
- 			<listbox style="scrolllist">
- 				<placement x="%col1_x_left%" y="%row2_header_y%" w="%content_width%" h="%listbox_settings_height%"/>
-+				<listitem name="{@auto_disable_avb2=Automatically disable AVB2.0}">
-+					<data variable="tw_auto_disable_avb2"/>
-+				</listitem>
- 				<listitem name="{@zip_sig_chk=Zip signature verification}">
- 					<data variable="tw_signed_zip_verify"/>
- 				</listitem>
-@@ -4145,6 +4148,17 @@
- 
- 			<listbox style="advanced_listbox">
- 				<placement x="%indent%" y="%row2_header_y%" w="%content_width%" h="%fileselector_install_height%"/>
-+				<listitem name="{@disable_avb2=Disable AVB2.0}">
-+					<actions>
-+						<action function="set">tw_back=advanced</action>
-+						<action function="set">tw_action=disableAVB2</action>
-+						<action function="set">tw_text1={@disable_avb2_confirm=Disable AVB2.0?}</action>
-+						<action function="set">tw_action_text1={@disabling_AVB2=Disabling AVB2.0...}</action>
-+						<action function="set">tw_complete_text1={@disabling_AVB2_complete=Disabled AVB2.0}</action>
-+						<action function="set">tw_slider_text={@swipe_to_confirm=Swipe to Confirm}</action>
-+						<action function="page">confirm_action</action>
-+					</actions>
-+				</listitem>
- 				<listitem name="{@reload_theme_btn=Reload Theme}">
- 					<action function="reload"/>
- 				</listitem>
 diff --git a/gui/theme/portrait_hdpi/pages/advanced.xml b/gui/theme/portrait_hdpi/pages/advanced.xml
-index ed32476..e0801c8 100644
+index ed32476..05e2496 100644
 --- a/gui/theme/portrait_hdpi/pages/advanced.xml
 +++ b/gui/theme/portrait_hdpi/pages/advanced.xml
-@@ -70,6 +70,18 @@
+@@ -70,6 +70,20 @@
  					<icon res="maintainer"/>
  					<action function="page">maintainer</action>
  				</listitem>
 +				<listitem name="{@disable_avb2=Disable AVB2.0}">
++					<condition var1="fox_auto_disable_vbmeta_avb2" var2="1"/>
++					<!--condition var1="fox_patch_avb_20" op="!=" var2="1"/-->
 +					<icon res="bs_btn_archive"/>
 +					<actions>
 +						<action function="set">tw_back=advanced</action>
@@ -140,118 +32,6 @@ index ed32476..e0801c8 100644
  				<listitem name="{@reboot_btn}">
  					<icon res="bs_adv_reboot"/>
  					<action function="set">tw_back=advanced</action>
-diff --git a/gui/theme/portrait_hdpi/pages/settings.xml b/gui/theme/portrait_hdpi/pages/settings.xml
-index 5410ff0..2ebb53b 100644
---- a/gui/theme/portrait_hdpi/pages/settings.xml
-+++ b/gui/theme/portrait_hdpi/pages/settings.xml
-@@ -240,6 +240,9 @@
- 				<listitem name="{@use_rmrf_chk}">
- 					<data variable="tw_rm_rf"/>
- 				</listitem>
-+				<listitem name="{@auto_disable_avb2=Automatically disable AVB2.0}">
-+					<data variable="tw_auto_disable_avb2"/>
-+				</listitem>
- 				<listitem name="{@zip_sig_chk}">
- 					<data variable="tw_signed_zip_verify"/>
- 				</listitem>
-diff --git a/partitionmanager.cpp b/partitionmanager.cpp
-index 3db21f9..179bf4f 100755
---- a/partitionmanager.cpp
-+++ b/partitionmanager.cpp
-@@ -206,6 +206,57 @@ void inline Process_Keymaster_Version(TWPartition *ven, bool Display_Error) {
- 	android::base::SetProperty(TW_KEYMASTER_VERSION_PROP, version.c_str());
- }
- 
-+#define AVB_MAGIC "AVB0"
-+#define AVB_MAGIC_LEN 4
-+#define AVB_VBMETA_FLAGS_OFFSET 123
-+
-+bool Do_Disable_AVB2(string File_Name, char Disable_Flags, bool Display_Info) {
-+	char AVB_MAGIC_BUF[AVB_MAGIC_LEN + 1] = {0}, flags_buf[1] = {0};
-+	int _ret;
-+	bool ret = false;
-+	string dev = "/dev/block/bootdevice/by-name/";
-+
-+	FILE *vbmetaFile = fopen((dev + File_Name).c_str(), "rb+");
-+	if (vbmetaFile != NULL) {
-+		fread(&AVB_MAGIC_BUF, AVB_MAGIC_LEN, 1, vbmetaFile);
-+		if(strncmp(AVB_MAGIC, AVB_MAGIC_BUF, AVB_MAGIC_LEN) != 0) goto exit;
-+		fseek(vbmetaFile, AVB_VBMETA_FLAGS_OFFSET, SEEK_SET);
-+		_ret = fread(&flags_buf, 1, 1, vbmetaFile);
-+		if(!_ret) goto exit;
-+		if (flags_buf[0] != Disable_Flags) {
-+			fseek(vbmetaFile, AVB_VBMETA_FLAGS_OFFSET, SEEK_SET);
-+			_ret = fwrite(&Disable_Flags, 1, 1, vbmetaFile);
-+			if(!_ret) goto exit;
-+		}
-+		ret = true;
-+	}
-+
-+exit:
-+	if (vbmetaFile != NULL) {
-+		fclose(vbmetaFile);
-+	}
-+	if (Display_Info) {
-+		auto msg = ret ? Msg(msg::kHighlight, "disable_avb2_success_msg=Disable AVB2.0: processing '{1}' successfully.")(File_Name)
-+						: Msg(msg::kError, "disable_avb2_fail_msg=Disable AVB2.0: processing '{1}' failed!")(File_Name);
-+		gui_msg(msg);
-+	}
-+	return ret;
-+}
-+
-+bool TWPartitionManager::Disable_AVB2(bool Display_Info) {
-+	char disable_flags = AVB_VBMETA_IMAGE_FLAGS_VERIFICATION_DISABLED;
-+
-+#ifdef AB_OTA_UPDATER
-+	return Do_Disable_AVB2("vbmeta_a", disable_flags, Display_Info)
-+			& Do_Disable_AVB2("vbmeta_system_a", disable_flags, Display_Info)
-+			& Do_Disable_AVB2("vbmeta_b", disable_flags, Display_Info)
-+			& Do_Disable_AVB2("vbmeta_system_b", disable_flags, Display_Info);
-+#else
-+	return Do_Disable_AVB2("vbmeta", disable_flags, Display_Info)
-+			& Do_Disable_AVB2("vbmeta_system", disable_flags, Display_Info);
-+#endif
-+}
-+
- int TWPartitionManager::Process_Fstab(string Fstab_Filename, bool Display_Error, bool recovery_mode) {
- 	FILE *fstabFile;
- 	char fstab_line[MAX_FSTAB_LINE_LENGTH];
-diff --git a/partitions.hpp b/partitions.hpp
-index a172af2..8199dae 100644
---- a/partitions.hpp
-+++ b/partitions.hpp
-@@ -442,6 +442,7 @@ public:
- 	void Unlock_Block_Partitions();                                           // Unlock all block devices after update_engine runs
- 	bool Unmap_Super_Devices();                                               // Unmap super devices in TWRP
- 	bool Check_Pending_Merges();                                              // Check and run pending merges on data for VAB devices
-+	bool Disable_AVB2(bool Display_Info);                                     // Disable AVB2.0
- 
- #ifdef TW_HAS_MTP
- 	bool is_MTP_Enabled(void);						  // returns whether MTP is already enabled
-diff --git a/twrpinstall/twinstall.cpp b/twrpinstall/twinstall.cpp
-index 35ccc4f..b60438b 100755
---- a/twrpinstall/twinstall.cpp
-+++ b/twrpinstall/twinstall.cpp
-@@ -547,5 +547,7 @@ int TWinstall_zip(const char *path, int *wipe_cache, bool check_for_digest)
-    	TWFunc::Fox_Property_Set("found_fox_overwriting_rom", "");
-    }
- 
-+   if (DataManager::GetIntValue(TW_AUTO_DISABLE_AVB2_VAR)) PartitionManager.Disable_AVB2(true);
-+
-   return ret_val;
- }
-diff --git a/variables.h b/variables.h
-index 4aa76fa..186f54a 100644
---- a/variables.h
-+++ b/variables.h
-@@ -227,6 +227,7 @@ static int Fox_Current_ROM_IsMIUI = 0; // is the currently installed ROM a MIUI 
- #define TW_TIME_ZONE_VAR            "tw_time_zone"
- #define TW_RM_RF_VAR                "tw_rm_rf"
- 
-+#define TW_AUTO_DISABLE_AVB2_VAR    "tw_auto_disable_avb2"
- #define TW_BACKUPS_FOLDER_VAR       "tw_backups_folder"
- 
- #define TW_SDEXT_SIZE               "tw_sdext_size"
 --
-libgit2 1.7.0
+libgit2 1.7.1
 
