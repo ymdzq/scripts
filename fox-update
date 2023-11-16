@@ -19,6 +19,5 @@ cd ~/fox_12.1
 	git apply ~/Unmount-data.patch
 	cd ~/fox_12.1/vendor/recovery/
 	git pull
-	cd ~/fox_12.1/system/vold/
-	git reset --hard TeamWin/android-12.1
-	git apply ~/81ef977.diff
+#	cd ~/fox_12.1/system/vold/
+#	git reset --hard TeamWin/android-12.1
