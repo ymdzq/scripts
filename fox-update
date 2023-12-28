@@ -16,7 +16,6 @@ cd ~/fox_12.1
 	git apply ~/AVB20.patch
 	git apply ~/Update_Log_File.patch
 	git apply ~/Set_FBE_Status.patch
-	git apply ~/Unmount-data.patch
 	cd ~/fox_12.1/vendor/recovery/
 	git pull
 #	cd ~/fox_12.1/system/vold/
