@@ -10,7 +10,6 @@ cd ~/fox_12.1
 	git apply ~/early-translation.patch
 	git apply ~/fastbootd-optimize.patch
 	git apply ~/Backup_Display_Name.patch
-	git apply ~/5743.patch
 	git apply ~/DST.patch
 	git apply ~/settings.patch
 	git apply ~/AVB20.patch
