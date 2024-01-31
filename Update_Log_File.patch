@@ -1,17 +1,18 @@
-From 68aeef5f4c7d73c7c01e6ea23b55438c84d9d52f Mon Sep 17 00:00:00 2001
-From: ymdzq <233900743@qq.com>
-Date: Tue, 29 Aug 2023 20:23:39 +0800
+From c5bb9ceb375f6d9972054fd739616cb6cbdfa877 Mon Sep 17 00:00:00 2001
+From: sekaiacg <sekaiacg@gmail.com>
+Date: Sun, 25 Sep 2022 08:26:40 +0800
 Subject: [PATCH] Update_Log_File: Remove /data/cache/command before reboot
 
+Signed-off-by: sekaiacg <sekaiacg@gmail.com>
 ---
  twrp-functions.cpp | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/twrp-functions.cpp b/twrp-functions.cpp
-index f9a6dbf..d9fc500 100755
+index 4e23a7a..c7570d7 100755
 --- a/twrp-functions.cpp
 +++ b/twrp-functions.cpp
-@@ -1039,6 +1039,7 @@ void TWFunc::Update_Log_File(void) {
+@@ -1043,6 +1043,7 @@ void TWFunc::Update_Log_File(void) {
  			}
  		}
  	}
@@ -20,5 +21,5 @@ index f9a6dbf..d9fc500 100755
  }
  
 --
-libgit2 1.7.0
+libgit2 1.7.1
 

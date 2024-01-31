@@ -1,17 +1,18 @@
-From 8930d9d45dbeb5a3b8b8d2e78c7e624cfad7fd14 Mon Sep 17 00:00:00 2001
-From: ymdzq <233900743@qq.com>
-Date: Tue, 29 Aug 2023 19:58:37 +0800
+From 22ba6e99612fd401b8ffd15694c235a170a49194 Mon Sep 17 00:00:00 2001
+From: sekaiacg <sekaiacg@gmail.com>
+Date: Thu, 23 Dec 2021 18:49:38 +0800
 Subject: [PATCH] language: Allow early translation
 
+Signed-off-by: sekaiacg <sekaiacg@gmail.com>
 ---
  twrp.cpp |  9 ++++++---
  1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/twrp.cpp b/twrp.cpp
-index c7c0756..66a72d3 100644
+index ecf2515..c536934 100644
 --- a/twrp.cpp
 +++ b/twrp.cpp
-@@ -225,7 +225,7 @@ static void process_recovery_mode(twrpAdbBuFifo* adb_bu_fifo, bool skip_decrypti
+@@ -259,7 +259,7 @@ static void process_recovery_mode(twrpAdbBuFifo* adb_bu_fifo, bool skip_decrypti
  		TWFunc::Fixup_Time_On_Boot();
  
  	TWFunc::Update_Log_File();
@@ -20,7 +21,7 @@ index c7c0756..66a72d3 100644
  
  	// Run any outstanding OpenRecoveryScript
  	std::string cacheDir = TWFunc::get_log_dir();
-@@ -282,7 +282,7 @@ static void process_recovery_mode(twrpAdbBuFifo* adb_bu_fifo, bool skip_decrypti
+@@ -316,7 +316,7 @@ static void process_recovery_mode(twrpAdbBuFifo* adb_bu_fifo, bool skip_decrypti
  				if (!created)
  					LOGERR("Unable to create log directory for TWRP\n");
  			}
@@ -29,7 +30,7 @@ index c7c0756..66a72d3 100644
  #endif
  		} else {
  			if ((DataManager::GetIntValue("tw_mount_system_ro") == 0 && sys->Check_Lifetime_Writes() == 0) || DataManager::GetIntValue("tw_mount_system_ro") == 2) {
-@@ -472,6 +472,9 @@ int main(int argc, char **argv) {
+@@ -517,6 +517,9 @@ int main(int argc, char **argv) {
  	// Load up all the resources
  	gui_loadResources();
  
@@ -39,7 +40,7 @@ index c7c0756..66a72d3 100644
  	std::string value;
  	static char charging = ' ';
  	static int lastVal = -1;
-@@ -486,7 +489,7 @@ int main(int argc, char **argv) {
+@@ -593,7 +596,7 @@ int main(int argc, char **argv) {
  	}
  
  	// Language
@@ -49,5 +50,5 @@ index c7c0756..66a72d3 100644
  
  	// Fox extra setup
 --
-libgit2 1.7.0
+libgit2 1.7.1
 

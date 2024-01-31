@@ -1,17 +1,18 @@
-From 20101d6cf6a8911760d04341f55ded98c71a193b Mon Sep 17 00:00:00 2001
-From: ymdzq <233900743@qq.com>
-Date: Tue, 29 Aug 2023 20:00:01 +0800
+From f6e60da53140ea34f380d8f3cbd76c4e8675f7c0 Mon Sep 17 00:00:00 2001
+From: sekaiacg <sekaiacg@gmail.com>
+Date: Wed, 29 Mar 2023 20:33:14 +0800
 Subject: [PATCH] twrp: fastbootd: Always unmap super device and optimize
 
+Signed-off-by: sekaiacg <sekaiacg@gmail.com>
 ---
  twrp.cpp | 13 +++++++++----
  1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/twrp.cpp b/twrp.cpp
-index 66a72d3..0fb0bab 100644
+index c536934..d552d5f 100644
 --- a/twrp.cpp
 +++ b/twrp.cpp
-@@ -502,10 +500,15 @@ int main(int argc, char **argv) {
+@@ -500,10 +500,15 @@ int main(int argc, char **argv) {
  
  #ifdef TW_LOAD_VENDOR_MODULES
  	if (startup.Get_Fastboot_Mode()) {

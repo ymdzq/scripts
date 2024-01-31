@@ -1,23 +1,25 @@
-From 5595a9e1dd68313477635cf0cb9dd42b4fb5dd72 Mon Sep 17 00:00:00 2001
+From 1fc3d06f2bb6eb90b70b592390dd485dc53f8179 Mon Sep 17 00:00:00 2001
 From: ymdzq <233900743@qq.com>
-Date: Sat, 11 Nov 2023 19:40:10 +0800
+Date: Sun, 17 Dec 2023 12:02:47 +0800
 Subject: [PATCH] 菜单页添加禁用avb2.0的按钮
 
+橙狐上游合并了禁用avb2.0功能的相关代码，
+但是没合全，少了一个直接禁用的按钮，
+不然你每次要关avb2.0还得先刷一个zip包
 ---
- gui/theme/portrait_hdpi/pages/advanced.xml | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ gui/theme/portrait_hdpi/pages/advanced.xml | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/gui/theme/portrait_hdpi/pages/advanced.xml b/gui/theme/portrait_hdpi/pages/advanced.xml
-index ed32476..05e2496 100644
+index ed32476..5703a75 100644
 --- a/gui/theme/portrait_hdpi/pages/advanced.xml
 +++ b/gui/theme/portrait_hdpi/pages/advanced.xml
-@@ -70,6 +70,20 @@
+@@ -70,6 +70,19 @@
  					<icon res="maintainer"/>
  					<action function="page">maintainer</action>
  				</listitem>
 +				<listitem name="{@disable_avb2=Disable AVB2.0}">
 +					<condition var1="fox_auto_disable_vbmeta_avb2" var2="1"/>
-+					<!--condition var1="fox_patch_avb_20" op="!=" var2="1"/-->
 +					<icon res="bs_btn_archive"/>
 +					<actions>
 +						<action function="set">tw_back=advanced</action>

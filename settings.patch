@@ -1,8 +1,18 @@
+From 9ec9765edb75cdff7cd4cc0c9a9cf5d876ea0ff6 Mon Sep 17 00:00:00 2001
+From: ymdzq <233900743@qq.com>
+Date: Sun, 17 Dec 2023 12:01:01 +0800
+Subject: [PATCH] 修复一处备份文本未翻译的问题
+
+默认只显示英文，修改后翻译就能生效了
+---
+ gui/theme/portrait_hdpi/pages/settings.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 diff --git a/gui/theme/portrait_hdpi/pages/settings.xml b/gui/theme/portrait_hdpi/pages/settings.xml
-index 5410ff0..85520b7 100644
+index cf920f8..8d37ff0 100644
 --- a/gui/theme/portrait_hdpi/pages/settings.xml
 +++ b/gui/theme/portrait_hdpi/pages/settings.xml
-@@ -704,7 +704,7 @@
+@@ -709,7 +709,7 @@
  					<condition var1="tw_no_sha2" var2="0"/>
  					<data variable="tw_use_sha2"/>
  				</listitem>
@@ -11,3 +21,6 @@ index 5410ff0..85520b7 100644
  					<data variable="fox_adv_backup"/>
  				</listitem>
  				<listitem name="{@keep_storage_data}">
+--
+libgit2 1.7.1
+
