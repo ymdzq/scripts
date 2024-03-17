@@ -6,7 +6,6 @@ cd ~/fox_11.0
 	git reset --hard origin/fox_11.0
 	git pull
 	git cherry-pick 2c3a9658
-	git apply ~/5743.patch
-	git apply ~/settings.patch
+	git fetch https://github.com/ymdzq/OrangeFox_Recovery fox_11.0 && git cherry-pick 435099b..b0ea0a0
 	cd ~/fox_11.0/vendor/recovery/
 	git pull
