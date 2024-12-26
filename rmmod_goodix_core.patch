@@ -1,0 +1,46 @@
+From 72feb84d2cd710486b0f8850814f3ef2dcac3b82 Mon Sep 17 00:00:00 2001
+From: sekaiacg <sekaiacg@gmail.com>
+Date: Wed, 25 Dec 2024 13:18:58 +0800
+Subject: [PATCH] kernel_module_loader: Add TW_XIAOMI_TOUCH_RMMOD_GOODIX_CORE
+
+Signed-off-by: sekaiacg <sekaiacg@gmail.com>
+---
+ Android.mk               | 3 +++
+ kernel_module_loader.cpp | 7 +++++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/Android.mk b/Android.mk
+index 0eac6010..83355a78 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -379,6 +379,9 @@ endif
+ ifeq ($(TW_XIAOMI_TOUCH_PERMISSION_FIX), true)
+ 	LOCAL_CFLAGS += -DTW_XIAOMI_TOUCH_PERMISSION_FIX
+ endif
++ifeq ($(TW_XIAOMI_TOUCH_RMMOD_GOODIX_CORE), true)
++	LOCAL_CFLAGS += -DTW_XIAOMI_TOUCH_RMMOD_GOODIX_CORE
++endif
+ ifneq ($(TW_CUSTOM_CPU_TEMP_PATH),)
+ 	LOCAL_CFLAGS += -DTW_CUSTOM_CPU_TEMP_PATH=$(TW_CUSTOM_CPU_TEMP_PATH)
+ endif
+diff --git a/kernel_module_loader.cpp b/kernel_module_loader.cpp
+index 8b0115c13..f7b0ad60f 100644
+--- a/kernel_module_loader.cpp
++++ b/kernel_module_loader.cpp
+@@ -60,6 +60,13 @@ bool KernelModuleLoader::Load_Vendor_Modules() {
+ 	vendor_module_dirs.push_back(vendor_base_dir + gki);
+ #endif
+ 
++#ifdef TW_XIAOMI_TOUCH_RMMOD_GOODIX_CORE
++	{
++		std::string result;
++		TWFunc::Exec_Cmd("rmmod goodix_core > /dev/null 2>&1", result, false);
++	}
++#endif
++
+ 	switch(Get_Boot_Mode()) {
+ 		case RECOVERY_FASTBOOT_MODE:
+ 			/* On bootmode: once, there is not always stock kernel
+-- 
+2.47.1
+

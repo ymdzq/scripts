@@ -1,0 +1,43 @@
+From 0f6e7c0e9fd8394a992097a7f0c0ad4318e6f60d Mon Sep 17 00:00:00 2001
+From: sekaiacg <sekaiacg@gmail.com>
+Date: Wed, 25 Dec 2024 13:16:18 +0800
+Subject: [PATCH] kernel_module_loader: Add TW_XIAOMI_TOUCH_PERMISSION_FIX
+
+Signed-off-by: sekaiacg <sekaiacg@gmail.com>
+---
+ Android.mk               | 3 +++
+ kernel_module_loader.cpp | 4 ++++
+ 2 files changed, 7 insertions(+)
+
+diff --git a/Android.mk b/Android.mk
+index 9d363a1b..0eac6010 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -376,6 +376,9 @@ endif
+ ifneq ($(TW_CUSTOM_BATTERY_PATH),)
+ 	LOCAL_CFLAGS += -DTW_CUSTOM_BATTERY_PATH=$(TW_CUSTOM_BATTERY_PATH)
+ endif
++ifeq ($(TW_XIAOMI_TOUCH_PERMISSION_FIX), true)
++	LOCAL_CFLAGS += -DTW_XIAOMI_TOUCH_PERMISSION_FIX
++endif
+ ifneq ($(TW_CUSTOM_CPU_TEMP_PATH),)
+ 	LOCAL_CFLAGS += -DTW_CUSTOM_CPU_TEMP_PATH=$(TW_CUSTOM_CPU_TEMP_PATH)
+ endif
+diff --git a/kernel_module_loader.cpp b/kernel_module_loader.cpp
+index 47ca4a30e..8b0115c13 100644
+--- a/kernel_module_loader.cpp
++++ b/kernel_module_loader.cpp
+@@ -108,6 +108,10 @@ exit:
+ 	if (ven_dlkm)
+ 		ven_dlkm->UnMount(false);
+ 
++#ifdef TW_XIAOMI_TOUCH_PERMISSION_FIX
++	TWFunc::Exec_Cmd("chmod 0664 /sys/class/touch/touch_dev/touch_thp* > /dev/null 2>&1", false);
++#endif
++
+ 	android::base::SetProperty(TW_MODULES_MOUNTED_PROP, "true");
+ 
+ 	return true;
+-- 
+2.47.1
+
