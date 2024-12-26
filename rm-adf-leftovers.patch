@@ -1,0 +1,30 @@
+From 304ff010879d49afd37c8ac9ca299501f190b2bf Mon Sep 17 00:00:00 2001
+From: nebrassy <nebras30@gmail.com>
+Date: Sat, 31 Aug 2024 19:53:55 +0200
+Subject: [PATCH] minuitwrp: remove adf leftovers
+
+Change-Id: I3708cdded18592fe73c9ea66ce879facc500878b
+---
+ minuitwrp/graphics.cpp | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/minuitwrp/graphics.cpp b/minuitwrp/graphics.cpp
+index 3e10eb34f..f266178ac 100644
+--- a/minuitwrp/graphics.cpp
++++ b/minuitwrp/graphics.cpp
+@@ -380,12 +380,6 @@ int gr_init(void)
+     }
+ #endif
+ 
+-#ifdef MSM_BSP
+-	printf("Skipping adf graphics because TW_TARGET_USES_QCOM_BSP := true\n");
+-#else
+-    printf("Skipping adf graphics -- not present in build tree\n");
+-#endif
+-
+ #ifdef HAS_DRM
+     if (!gr_backend || !gr_draw) {
+         gr_backend = open_drm();
+-- 
+2.47.1
+
