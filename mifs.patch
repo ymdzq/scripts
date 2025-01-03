@@ -1,0 +1,24 @@
+From c5304311b18669c13f2fba22369d7f87ea8ff012 Mon Sep 17 00:00:00 2001
+From: YuKongA <70465933+YuKongA@users.noreply.github.com>
+Date: Tue, 31 Dec 2024 21:34:09 +0800
+Subject: [PATCH] partition: Add mifs to file system check list
+
+---
+ partition.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/partition.cpp b/partition.cpp
+index b4f616429..023c29eda 100644
+--- a/partition.cpp
++++ b/partition.cpp
+@@ -1219,6 +1219,7 @@ bool TWPartition::Is_File_System(string File_System) {
+ 		File_System == "yaffs2" ||
+ 		File_System == "exfat" ||
+ 		File_System == "f2fs" ||
++		File_System == "mifs" ||
+ 		File_System == "erofs" ||
+ 		File_System == "squashfs" ||
+ 		File_System == "auto")
+-- 
+2.47.1
+
