@@ -1,0 +1,72 @@
+From c9c747602a537b8137cbd24960d2f02fef93d318 Mon Sep 17 00:00:00 2001
+From: sekaiacg <sekaiacg@gmail.com>
+Date: Fri, 27 Dec 2024 13:38:36 +0800
+Subject: [PATCH] minuitwrp: Select display mode based on TW_FRAMERATE
+
+Signed-off-by: sekaiacg <sekaiacg@gmail.com>
+---
+ minuitwrp/graphics_drm.cpp         | 26 ++++++++++++++++++++++++++
+ minuitwrp/libminuitwrp_defaults.go |  3 +++
+ 2 files changed, 29 insertions(+)
+
+diff --git a/minuitwrp/graphics_drm.cpp b/minuitwrp/graphics_drm.cpp
+index 0cc80f5cb..edd789568 100644
+--- a/minuitwrp/graphics_drm.cpp
++++ b/minuitwrp/graphics_drm.cpp
+@@ -832,6 +832,26 @@ static drmModeConnector *find_first_connected_connector(int fd,
+     return nullptr;
+ }
+ 
++static void printDisplayModeInfo(const drmModeConnector *monitor_connector) {
++    for (int modes = 0; modes < monitor_connector->count_modes; modes++) {
++		auto mode = monitor_connector->modes[modes];
++        printf("ui: Display Mode #%d resolution: %dx%d@%d type: %d\n", modes,
++            mode.hdisplay,
++            mode.vdisplay,
++            mode.vrefresh,
++            mode.type);
++    }
++}
++
++static int getModeIdxByFramerate(const drmModeConnector *monitor_connector,
++        uint32_t framerate) {
++    for (int modes = 0; modes < monitor_connector->count_modes; modes++) {
++        if (monitor_connector->modes[modes].vrefresh == framerate)
++            return modes;
++    }
++	return -1;
++}
++
+ static drmModeConnector *find_main_monitor(int fd, drmModeRes *resources,
+         uint32_t *mode_index) {
+     /* Look for LVDS/eDP/DSI connectors. Those are the main screens. */
+@@ -868,6 +888,12 @@ static drmModeConnector *find_main_monitor(int fd, drmModeRes *resources,
+         }
+     }
+ 
++    printDisplayModeInfo(main_monitor_connector);
++	int tw_framerate_mode_idx = getModeIdxByFramerate(main_monitor_connector, TW_FRAMERATE);
++	if (tw_framerate_mode_idx >= 0) *mode_index = tw_framerate_mode_idx;
++	printf("ui: Current TW_FRAMERATE is @%d\n", TW_FRAMERATE);
++	printf("ui: Choosing display mode #%d\n", *mode_index);
++
+     return main_monitor_connector;
+ }
+ 
+diff --git a/minuitwrp/libminuitwrp_defaults.go b/minuitwrp/libminuitwrp_defaults.go
+index 8c738c530..223590732 100644
+--- a/minuitwrp/libminuitwrp_defaults.go
++++ b/minuitwrp/libminuitwrp_defaults.go
+@@ -97,6 +97,9 @@ func globalSrcs(ctx android.BaseContext) []string {
+ 	if getMakeVars(ctx, "TW_HAPTICS_TSPDRV") == "true" {
+ 		srcs = append(srcs, "tspdrv.cpp")
+ 	}
++	if getMakeVars(ctx, "TW_FRAMERATE") != "" {
++		srcs = append(srcs, "-DTW_FRAMERATE="+getMakeVars(ctx, "TW_FRAMERATE"))
++	}
+ 	return srcs
+ }
+ 
+-- 
+2.47.1
+
