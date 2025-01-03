@@ -5,7 +5,7 @@ cd ~/fox_12.1
 	cd ~/fox_12.1/bootable/recovery/
 	git reset --hard origin/fox_12.1
 	git pull
-	git fetch https://github.com/sekaiacg/twrp_recovery android-12.1 && git cherry-pick 443565c
+	git fetch https://github.com/sekaiacg/twrp_recovery android-12.1 && git cherry-pick b65c915
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/79/7679/1 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/80/7680/1 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/81/7681/1 && git cherry-pick FETCH_HEAD
@@ -22,6 +22,9 @@ cd ~/fox_12.1
 	git apply ~/Set_FBE_Status.patch
 	git apply ~/touch_permission.patch
 	git apply ~/rmmod_goodix_core.patch
+	git apply ~/display-mode.patch
+	git apply ~/SPR-support.patch
+	git apply ~/mifs.patch
 	cd ~/fox_12.1/vendor/recovery/
 	git pull
 #	cd ~/fox_12.1/system/vold/
