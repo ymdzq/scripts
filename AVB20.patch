@@ -1,4 +1,4 @@
-From 1fc3d06f2bb6eb90b70b592390dd485dc53f8179 Mon Sep 17 00:00:00 2001
+From 84b667a389acea837e4264db0d34cd25ed5ca9e3 Mon Sep 17 00:00:00 2001
 From: ymdzq <233900743@qq.com>
 Date: Sun, 17 Dec 2023 12:02:47 +0800
 Subject: [PATCH] 菜单页添加禁用avb2.0的按钮
@@ -11,7 +11,7 @@ Subject: [PATCH] 菜单页添加禁用avb2.0的按钮
  1 file changed, 13 insertions(+)
 
 diff --git a/gui/theme/portrait_hdpi/pages/advanced.xml b/gui/theme/portrait_hdpi/pages/advanced.xml
-index ed32476..5703a75 100644
+index ed3247692..5703a75c4 100644
 --- a/gui/theme/portrait_hdpi/pages/advanced.xml
 +++ b/gui/theme/portrait_hdpi/pages/advanced.xml
 @@ -70,6 +70,19 @@
@@ -34,6 +34,6 @@ index ed32476..5703a75 100644
  				<listitem name="{@reboot_btn}">
  					<icon res="bs_adv_reboot"/>
  					<action function="set">tw_back=advanced</action>
---
-libgit2 1.7.1
+-- 
+2.47.1
 

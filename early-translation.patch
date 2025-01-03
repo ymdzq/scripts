@@ -1,15 +1,15 @@
-From 22ba6e99612fd401b8ffd15694c235a170a49194 Mon Sep 17 00:00:00 2001
+From d0b3cb92630018f05fe3f4b895bcabacabd84f34 Mon Sep 17 00:00:00 2001
 From: sekaiacg <sekaiacg@gmail.com>
 Date: Thu, 23 Dec 2021 18:49:38 +0800
 Subject: [PATCH] language: Allow early translation
 
 Signed-off-by: sekaiacg <sekaiacg@gmail.com>
 ---
- twrp.cpp |  9 ++++++---
+ twrp.cpp | 9 ++++++---
  1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/twrp.cpp b/twrp.cpp
-index ecf2515..c536934 100644
+index ecf25157e..c53693437 100644
 --- a/twrp.cpp
 +++ b/twrp.cpp
 @@ -259,7 +259,7 @@ static void process_recovery_mode(twrpAdbBuFifo* adb_bu_fifo, bool skip_decrypti
@@ -49,6 +49,6 @@ index ecf2515..c536934 100644
  	GUIConsole::Translate_Now();
  
  	// Fox extra setup
---
-libgit2 1.7.1
+-- 
+2.47.1
 

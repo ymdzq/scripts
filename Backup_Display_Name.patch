@@ -1,9 +1,8 @@
-From a2bfa5d5ba9fe4aa7548627f67a63172c6ab7a43 Mon Sep 17 00:00:00 2001
+From 8a0aaa6ceed5998d76fc3fd04fcbd946f92db410 Mon Sep 17 00:00:00 2001
 From: sekaiacg <sekaiacg@gmail.com>
 Date: Thu, 23 Dec 2021 18:53:30 +0800
 Subject: [PATCH] Super partition: Backup_Display_Name increase to 5 items
-
-ystem|vendor|product|odm|system_ext
+ system|vendor|product|odm|system_ext
 
 Signed-off-by: sekaiacg <sekaiacg@gmail.com>
 ---
@@ -11,10 +10,10 @@ Signed-off-by: sekaiacg <sekaiacg@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/partitionmanager.cpp b/partitionmanager.cpp
-index 463e319..0f73696 100755
+index 77c032636..1e9992392 100755
 --- a/partitionmanager.cpp
 +++ b/partitionmanager.cpp
-@@ -4691,7 +4691,7 @@ void TWPartitionManager::Setup_Super_Partition() {
+@@ -4694,7 +4694,7 @@ void TWPartitionManager::Setup_Super_Partition() {
  	// for the Super partition
  	int list_size = Super_Partition_List.size();
  	int orig_list_size = list_size;
@@ -23,6 +22,6 @@ index 463e319..0f73696 100755
  
  	for (auto partition: Super_Partition_List) {
  		superPartition->Backup_Display_Name = superPartition->Backup_Display_Name + partition;
---
-libgit2 1.7.1
+-- 
+2.47.1
 

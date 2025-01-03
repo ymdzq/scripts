@@ -1,4 +1,4 @@
-From f6e60da53140ea34f380d8f3cbd76c4e8675f7c0 Mon Sep 17 00:00:00 2001
+From 979d4dba4e4636292a13974c03ec78e1895aa0e6 Mon Sep 17 00:00:00 2001
 From: sekaiacg <sekaiacg@gmail.com>
 Date: Wed, 29 Mar 2023 20:33:14 +0800
 Subject: [PATCH] twrp: fastbootd: Always unmap super device and optimize
@@ -9,7 +9,7 @@ Signed-off-by: sekaiacg <sekaiacg@gmail.com>
  1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/twrp.cpp b/twrp.cpp
-index c536934..d552d5f 100644
+index c53693437..d552d5f6b 100644
 --- a/twrp.cpp
 +++ b/twrp.cpp
 @@ -500,10 +500,15 @@ int main(int argc, char **argv) {
@@ -32,6 +32,6 @@ index c536934..d552d5f 100644
  		}
  	}
  #endif
---
-libgit2 1.7.1
+-- 
+2.47.1
 

@@ -1,4 +1,4 @@
-From da32ce0f9caff4b018e4246266deda0e34eb124a Mon Sep 17 00:00:00 2001
+From 74d04d9fc28d26a308e5898f64674f70548ece68 Mon Sep 17 00:00:00 2001
 From: sekaiacg <sekaiacg@gmail.com>
 Date: Fri, 24 Dec 2021 09:28:41 +0800
 Subject: [PATCH] custom: Daylight savings time (DST) is not used by default
@@ -9,10 +9,10 @@ Signed-off-by: sekaiacg <sekaiacg@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/data.cpp b/data.cpp
-index b92d125..b1d5cc7 100755
+index 513e71884..b4e5c7d0a 100755
 --- a/data.cpp
 +++ b/data.cpp
-@@ -1210,7 +1210,7 @@ void DataManager::SetDefaultValues()
+@@ -1208,7 +1208,7 @@ void DataManager::SetDefaultValues()
    mPersist.SetValue(TW_TIME_ZONE_VAR, OF_DEFAULT_TIMEZONE);
    mPersist.SetValue(TW_TIME_ZONE_GUISEL, OF_DEFAULT_TIMEZONE);
    mPersist.SetValue(TW_TIME_ZONE_GUIOFFSET, "0");
@@ -21,6 +21,6 @@ index b92d125..b1d5cc7 100755
    mPersist.SetValue(TW_AUTO_REFLASHTWRP_VAR, "0");
  
    // avb2.0 disable
---
-libgit2 1.7.1
+-- 
+2.47.1
 
