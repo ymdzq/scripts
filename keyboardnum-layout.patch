@@ -1,0 +1,34 @@
+From a96b485959b56b57ba7b2773477930eed05b7abe Mon Sep 17 00:00:00 2001
+From: sekaiacg <sekaiacg@gmail.com>
+Date: Mon, 11 Jul 2022 17:06:12 +0800
+Subject: [PATCH] portrait_hdpi: Adjust keyboardnum layout
+
+Signed-off-by: sekaiacg <sekaiacg@gmail.com>
+---
+ gui/theme/portrait_hdpi/pages/templates/keyboard.xml | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/gui/theme/portrait_hdpi/pages/templates/keyboard.xml b/gui/theme/portrait_hdpi/pages/templates/keyboard.xml
+index d97b2fb4a..5fb43afd3 100644
+--- a/gui/theme/portrait_hdpi/pages/templates/keyboard.xml
++++ b/gui/theme/portrait_hdpi/pages/templates/keyboard.xml
+@@ -211,11 +211,11 @@
+ 				<keylabel key="0:action" text="" resource="enter" alt="enter_num_new"/>
+ 				<layout resource="keyback_num"/>
+ 				<layout1>
+-					<keysize height="160" width="212"/>
+-					<row1 key01="225:" key02="1" key03="2" key04="3" key05="225:"/>
+-					<row2 key01="225:" key02="4" key03="5" key04="6" key05="225:"/>
+-					<row3 key01="225:" key02="7" key03="8" key04="9" key05="225:"/>
+-					<row4 key01="225:" key02="212:c:8" key03="0" key04="214:action" key05="225:"/>
++					<keysize height="160" width="265"/>
++					<row1 key01="141:" key02="1" key03="2" key04="3" key05="141:"/>
++					<row2 key01="141:" key02="4" key03="5" key04="6" key05="141:"/>
++					<row3 key01="141:" key02="7" key03="8" key04="9" key05="141:"/>
++					<row4 key01="141:" key02="265:c:8" key03="0" key04="267:action" key05="141:"/>
+ 				</layout1>
+ 			</keyboard>
+ 
+-- 
+2.47.1
+
