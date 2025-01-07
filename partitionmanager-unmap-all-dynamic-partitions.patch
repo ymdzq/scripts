@@ -1,0 +1,44 @@
+From 527ab6fd0d545ac6cd588a02fcf2cd28192f909e Mon Sep 17 00:00:00 2001
+From: nebrassy <nebras30@gmail.com>
+Date: Mon, 23 Sep 2024 12:34:32 +0200
+Subject: [PATCH] partitionmanager: unmap all dynamic partitions not included
+ in fstab
+
+Change-Id: I6dbaf62f8354a8ece87a680d87f317d2a5d5bb14
+---
+ partitionmanager.cpp | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/partitionmanager.cpp b/partitionmanager.cpp
+index 6858df1c..ce343b75 100755
+--- a/partitionmanager.cpp
++++ b/partitionmanager.cpp
+@@ -3761,6 +3761,25 @@ bool TWPartitionManager::Unmap_Super_Devices() {
+ 			++iter;
+ 		}
+ 	}
++
++	const std::string block_path = "/dev/block/mapper/";
++	DIR* d = opendir(block_path.c_str());
++	if (d != NULL) {
++		struct dirent* de;
++		while ((de = readdir(d)) != NULL) {
++			std::string partition = de->d_name;
++			LOGINFO("partition: %s \n", partition.c_str());
++			if((strcmp(partition.c_str(),"userdata") != 0) && (strcmp(partition.c_str(),".") != 0) && (strcmp(partition.c_str(),"..") != 0) && (strcmp(partition.c_str(),"by-uuid") != 0)){
++				LOGINFO("removing dynamic partition: %s\n", partition.c_str());
++				destroyed = DestroyLogicalPartition(partition);
++				if (!destroyed) {
++					closedir(d);
++					return false;
++				}
++			}
++                }
++	closedir(d);
++	}
+ 	return true;
+ }
+ 
+-- 
+2.43.0
+
