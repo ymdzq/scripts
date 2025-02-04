@@ -6,11 +6,6 @@ cd ~/fox_12.1
 	git reset --hard origin/fox_12.1
 	git pull
 	git fetch https://github.com/sekaiacg/twrp_recovery android-12.1 && git cherry-pick b65c915
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/79/7679/1 && git cherry-pick FETCH_HEAD
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/80/7680/1 && git cherry-pick FETCH_HEAD
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/81/7681/1 && git cherry-pick FETCH_HEAD
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/82/7682/1 && git cherry-pick FETCH_HEAD
-	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/83/7683/1 && git cherry-pick FETCH_HEAD
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/96/7696/1 && git cherry-pick FETCH_HEAD
 	git apply ~/early-translation.patch
 	git apply ~/fastbootd-optimize.patch
