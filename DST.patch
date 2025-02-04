@@ -1,4 +1,4 @@
-From 74d04d9fc28d26a308e5898f64674f70548ece68 Mon Sep 17 00:00:00 2001
+From 1c8932e6ffa990ac3a2320095a57085cc1945648 Mon Sep 17 00:00:00 2001
 From: sekaiacg <sekaiacg@gmail.com>
 Date: Fri, 24 Dec 2021 09:28:41 +0800
 Subject: [PATCH] custom: Daylight savings time (DST) is not used by default
@@ -9,16 +9,16 @@ Signed-off-by: sekaiacg <sekaiacg@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/data.cpp b/data.cpp
-index 513e71884..b4e5c7d0a 100755
+index 85fa8d13f..70c6b354c 100755
 --- a/data.cpp
 +++ b/data.cpp
-@@ -1208,7 +1208,7 @@ void DataManager::SetDefaultValues()
+@@ -1207,7 +1207,7 @@ void DataManager::SetDefaultValues()
    mPersist.SetValue(TW_TIME_ZONE_VAR, OF_DEFAULT_TIMEZONE);
    mPersist.SetValue(TW_TIME_ZONE_GUISEL, OF_DEFAULT_TIMEZONE);
    mPersist.SetValue(TW_TIME_ZONE_GUIOFFSET, "0");
 -  mPersist.SetValue(TW_TIME_ZONE_GUIDST, "1");
 +  mPersist.SetValue(TW_TIME_ZONE_GUIDST, "0");
-   mPersist.SetValue(TW_AUTO_REFLASHTWRP_VAR, "0");
+   mPersist.SetValue(TW_AUTO_REFLASHTWRP_VAR, "1");
  
    // avb2.0 disable
 -- 

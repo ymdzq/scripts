@@ -1,13 +1,58 @@
-From 2c719c98443917c1b614d6d0b9a03abbc8235dd0 Mon Sep 17 00:00:00 2001
+From bf3070578994345e31bd226a67ec3cce7db31d1f Mon Sep 17 00:00:00 2001
 From: ymdzq <233900743@qq.com>
 Date: Sun, 17 Dec 2023 12:01:01 +0800
-Subject: [PATCH] 修复一处备份文本未翻译的问题
+Subject: [PATCH] 修复两处备份文本未翻译的问题
 
 默认只显示英文，修改后翻译就能生效了
 ---
- gui/theme/portrait_hdpi/pages/settings.xml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ gui/theme/common/languages/en.xml               | 1 +
+ gui/theme/portrait_hdpi/pages/customization.xml | 6 +++---
+ gui/theme/portrait_hdpi/pages/settings.xml      | 2 +-
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
+diff --git a/gui/theme/common/languages/en.xml b/gui/theme/common/languages/en.xml
+index bd040f900..965760d13 100644
+--- a/gui/theme/common/languages/en.xml
++++ b/gui/theme/common/languages/en.xml
+@@ -604,6 +604,7 @@
+ 		<string name="dbg_overlay">Overlay</string>
+ 		<string name="fm_none">None</string>
+ 		
++		<string name="cust_navbar_pie">Pie</string>
+ 		<string name="cust_navbar_noug">Nougat</string>
+ 		<string name="cust_navbar_cls">Classic</string>
+ 		<string name="cust_navbar_accent">Accent</string>
+diff --git a/gui/theme/portrait_hdpi/pages/customization.xml b/gui/theme/portrait_hdpi/pages/customization.xml
+index b663d4629..4b554a067 100644
+--- a/gui/theme/portrait_hdpi/pages/customization.xml
++++ b/gui/theme/portrait_hdpi/pages/customization.xml
+@@ -323,7 +323,7 @@
+ 			<listbox>
+ 				<placement x="0" y="%row3_2a_y%" w="%screen_w%" h="%lb_l2%"/>
+ 				<data name="style_battery"/>
+-				<listitem name="Pie">0</listitem>
++				<listitem name="{@cust_navbar_pie}">0</listitem>
+ 				<listitem name="{@status_battery_circle}">1</listitem>
+ 			</listbox>
+ 
+@@ -588,7 +588,7 @@
+ 				<data name="nougat"/>
+ 				<listitem name="{@cust_navbar_cls}">0</listitem>
+ 				<listitem name="{@cust_navbar_noug}">1</listitem>
+-				<listitem name="Pie">3</listitem>
++				<listitem name="{@cust_navbar_pie}">3</listitem>
+ 			</listbox>
+ 
+ 			<text style="caption">
+@@ -807,7 +807,7 @@
+ 				<data name="nougat"/>
+ 				<listitem name="{@cust_navbar_cls}">0</listitem>
+ 				<listitem name="{@cust_navbar_noug}">1</listitem>
+-				<listitem name="Pie">3</listitem>
++				<listitem name="{@cust_navbar_pie}">3</listitem>
+ 			</listbox>
+ 
+ 			<text style="caption">
 diff --git a/gui/theme/portrait_hdpi/pages/settings.xml b/gui/theme/portrait_hdpi/pages/settings.xml
 index cf920f8c0..8d37ff065 100644
 --- a/gui/theme/portrait_hdpi/pages/settings.xml
