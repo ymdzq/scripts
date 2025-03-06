@@ -1,17 +1,16 @@
-From bf3070578994345e31bd226a67ec3cce7db31d1f Mon Sep 17 00:00:00 2001
-From: ymdzq <233900743@qq.com>
-Date: Sun, 17 Dec 2023 12:01:01 +0800
-Subject: [PATCH] 修复两处备份文本未翻译的问题
+From cf4b67334a14a184a08db659aa2a55729b237004 Mon Sep 17 00:00:00 2001
+From: ymdzq <ymdzq@users.noreply.github.com>
+Date: Thu, 6 Mar 2025 18:49:59 +0800
+Subject: [PATCH] 修复一处备份文本未翻译的问题
 
 默认只显示英文，修改后翻译就能生效了
 ---
  gui/theme/common/languages/en.xml               | 1 +
  gui/theme/portrait_hdpi/pages/customization.xml | 6 +++---
- gui/theme/portrait_hdpi/pages/settings.xml      | 2 +-
- 3 files changed, 5 insertions(+), 4 deletions(-)
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/gui/theme/common/languages/en.xml b/gui/theme/common/languages/en.xml
-index bd040f900..965760d13 100644
+index dd75b35b7..ed8e7f64b 100644
 --- a/gui/theme/common/languages/en.xml
 +++ b/gui/theme/common/languages/en.xml
 @@ -604,6 +604,7 @@
@@ -23,10 +22,10 @@ index bd040f900..965760d13 100644
  		<string name="cust_navbar_cls">Classic</string>
  		<string name="cust_navbar_accent">Accent</string>
 diff --git a/gui/theme/portrait_hdpi/pages/customization.xml b/gui/theme/portrait_hdpi/pages/customization.xml
-index b663d4629..4b554a067 100644
+index 6b5dff599..a96243bfd 100644
 --- a/gui/theme/portrait_hdpi/pages/customization.xml
 +++ b/gui/theme/portrait_hdpi/pages/customization.xml
-@@ -323,7 +323,7 @@
+@@ -318,7 +318,7 @@
  			<listbox>
  				<placement x="0" y="%row3_2a_y%" w="%screen_w%" h="%lb_l2%"/>
  				<data name="style_battery"/>
@@ -35,7 +34,7 @@ index b663d4629..4b554a067 100644
  				<listitem name="{@status_battery_circle}">1</listitem>
  			</listbox>
  
-@@ -588,7 +588,7 @@
+@@ -583,7 +583,7 @@
  				<data name="nougat"/>
  				<listitem name="{@cust_navbar_cls}">0</listitem>
  				<listitem name="{@cust_navbar_noug}">1</listitem>
@@ -44,7 +43,7 @@ index b663d4629..4b554a067 100644
  			</listbox>
  
  			<text style="caption">
-@@ -807,7 +807,7 @@
+@@ -802,7 +802,7 @@
  				<data name="nougat"/>
  				<listitem name="{@cust_navbar_cls}">0</listitem>
  				<listitem name="{@cust_navbar_noug}">1</listitem>
@@ -53,19 +52,6 @@ index b663d4629..4b554a067 100644
  			</listbox>
  
  			<text style="caption">
-diff --git a/gui/theme/portrait_hdpi/pages/settings.xml b/gui/theme/portrait_hdpi/pages/settings.xml
-index cf920f8c0..8d37ff065 100644
---- a/gui/theme/portrait_hdpi/pages/settings.xml
-+++ b/gui/theme/portrait_hdpi/pages/settings.xml
-@@ -709,7 +709,7 @@
- 					<condition var1="tw_no_sha2" var2="0"/>
- 					<data variable="tw_use_sha2"/>
- 				</listitem>
--				<listitem name="Show additional partition to backup">
-+				<listitem name="{@full_partition_list}">
- 					<data variable="fox_adv_backup"/>
- 				</listitem>
- 				<listitem name="{@keep_storage_data}">
 -- 
-2.47.1
+2.48.1
 
