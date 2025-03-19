@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd ~/fox_14.1
+	~/bin/repo sync
+	cd ~/fox_14.1/bootable/recovery/
+	git reset --hard origin/fox_14.1
+	git pull
+	cd ~/fox_14.1/vendor/recovery/
+	git pull
