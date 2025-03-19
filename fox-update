@@ -7,13 +7,10 @@ cd ~/fox_12.1
 	git pull
 	git fetch https://github.com/sekaiacg/twrp_recovery android-12.1 && git cherry-pick b65c915
 	git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/96/7696/1 && git cherry-pick FETCH_HEAD
-	git apply ~/early-translation.patch
-	git apply ~/fastbootd-optimize.patch
 	git apply ~/Backup_Display_Name.patch
 	git apply ~/DST.patch
 	git apply ~/settings.patch
 	git apply ~/AVB20.patch
-	git apply ~/Update_Log_File.patch
 	git apply ~/Set_FBE_Status.patch
 	git apply ~/touch_permission.patch
 	git apply ~/rmmod_goodix_core.patch
