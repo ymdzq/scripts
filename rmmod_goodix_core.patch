@@ -10,10 +10,10 @@ Signed-off-by: sekaiacg <sekaiacg@gmail.com>
  2 files changed, 10 insertions(+)
 
 diff --git a/Android.mk b/Android.mk
-index 0eac6010..83355a78 100644
+index b30f0450e..4f786e838 100644
 --- a/Android.mk
 +++ b/Android.mk
-@@ -379,6 +379,9 @@ endif
+@@ -401,6 +401,9 @@ endif
  ifeq ($(TW_XIAOMI_TOUCH_PERMISSION_FIX), true)
  	LOCAL_CFLAGS += -DTW_XIAOMI_TOUCH_PERMISSION_FIX
  endif
@@ -24,10 +24,10 @@ index 0eac6010..83355a78 100644
  	LOCAL_CFLAGS += -DTW_CUSTOM_CPU_TEMP_PATH=$(TW_CUSTOM_CPU_TEMP_PATH)
  endif
 diff --git a/kernel_module_loader.cpp b/kernel_module_loader.cpp
-index 8b0115c13..f7b0ad60f 100644
+index e9ec46de1..999eda08e 100644
 --- a/kernel_module_loader.cpp
 +++ b/kernel_module_loader.cpp
-@@ -60,6 +60,13 @@ bool KernelModuleLoader::Load_Vendor_Modules() {
+@@ -61,6 +61,13 @@ bool KernelModuleLoader::Load_Vendor_Modules() {
  	vendor_module_dirs.push_back(vendor_base_dir + gki);
  #endif
  
@@ -38,9 +38,9 @@ index 8b0115c13..f7b0ad60f 100644
 +	}
 +#endif
 +
- 	switch(Get_Boot_Mode()) {
- 		case RECOVERY_FASTBOOT_MODE:
- 			/* On bootmode: once, there is not always stock kernel
+ 	TWFunc::RunFoxScript("/system/bin/beforemodules.sh", "");
+ 
+ 	Check_Loaded_Kernel_Modules();
 -- 
-2.47.1
+2.49.0
 

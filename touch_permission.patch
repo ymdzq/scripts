@@ -10,10 +10,10 @@ Signed-off-by: sekaiacg <sekaiacg@gmail.com>
  2 files changed, 7 insertions(+)
 
 diff --git a/Android.mk b/Android.mk
-index 9d363a1b..0eac6010 100644
+index 46b78a85c..b30f0450e 100644
 --- a/Android.mk
 +++ b/Android.mk
-@@ -376,6 +376,9 @@ endif
+@@ -398,6 +398,9 @@ endif
  ifneq ($(TW_CUSTOM_BATTERY_PATH),)
  	LOCAL_CFLAGS += -DTW_CUSTOM_BATTERY_PATH=$(TW_CUSTOM_BATTERY_PATH)
  endif
@@ -24,12 +24,12 @@ index 9d363a1b..0eac6010 100644
  	LOCAL_CFLAGS += -DTW_CUSTOM_CPU_TEMP_PATH=$(TW_CUSTOM_CPU_TEMP_PATH)
  endif
 diff --git a/kernel_module_loader.cpp b/kernel_module_loader.cpp
-index 47ca4a30e..8b0115c13 100644
+index a8dfd8bf2..e9ec46de1 100644
 --- a/kernel_module_loader.cpp
 +++ b/kernel_module_loader.cpp
-@@ -108,6 +108,10 @@ exit:
- 	if (ven_dlkm)
- 		ven_dlkm->UnMount(false);
+@@ -126,6 +126,10 @@ exit:
+ 	if (requested_modules_loaded == 0)
+ 		DataManager::SetValue("of_request_switch_control_mode" , "1");
  
 +#ifdef TW_XIAOMI_TOUCH_PERMISSION_FIX
 +	TWFunc::Exec_Cmd("chmod 0664 /sys/class/touch/touch_dev/touch_thp* > /dev/null 2>&1", false);
@@ -39,5 +39,5 @@ index 47ca4a30e..8b0115c13 100644
  
  	return true;
 -- 
-2.47.1
+2.49.0
 
