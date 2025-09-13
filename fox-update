@@ -5,6 +5,16 @@ cd ~/fox_12.1
 	cd ~/fox_12.1/bootable/recovery/
 	git reset --hard origin/fox_12.1
 	git pull
-	git fetch https://github.com/ymdzq/OrangeFox_Recovery fox_12.1 && git cherry-pick defe2ba1..07220139
+	git fetch https://github.com/ymdzq/OrangeFox_Recovery fox_12.1 && git cherry-pick 36289fac..bb3ec225
 	cd ~/fox_12.1/vendor/recovery/
+	git checkout -- .  
 	git pull
+	cd ~
+	curl -L --retry 3 $(echo $(curl -s "https://api.github.com/repos/topjohnwu/Magisk/releases?per_page=1&include_prereleases=true") | jq -r '.[0].assets[] | select(.name | test("Magisk-.*\\.apk")) | .browser_download_url') -o Magisk.apk
+	unzip -q Magisk.apk "lib/*/libmagiskboot.so" -d ~/magiskboot
+	D=~/fox_12.1/vendor/recovery
+	cp -f ~/magiskboot/lib/arm64-v8a/libmagiskboot.so $D/prebuilt/arm64/magiskboot_updated
+	cp -f ~/magiskboot/lib/armeabi-v7a/libmagiskboot.so $D/prebuilt/arm/magiskboot_updated
+	cp -f ~/magiskboot/lib/x86_64/libmagiskboot.so $D/tools/magiskboot
+	rm -r -f ~/magiskboot
+	echo "magiskboot更新完成"
