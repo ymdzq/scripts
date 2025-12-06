@@ -1,0 +1,35 @@
+From 54c5a6cac78b2d02b2970ccf88533920e35b2dd0 Mon Sep 17 00:00:00 2001
+From: ymdzq <1422091+ymdzq@users.noreply.github.com>
+Date: Wed, 24 Dec 2025 16:51:28 +0800
+Subject: [PATCH] Get Magisk version
+
+---
+ OrangeFox_A12.sh | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/OrangeFox_A12.sh b/OrangeFox_A12.sh
+index 30556ad..5709807 100755
+--- a/OrangeFox_A12.sh
++++ b/OrangeFox_A12.sh
+@@ -1585,13 +1585,17 @@ if [ "$FOX_VENDOR_CMD" = "Fox_Before_Recovery_Image" ]; then
+   tmp2=$(unzip -l $tmp1 | grep common/util_functions.sh)
+   if [ -n "$tmp2" ]; then
+      MAGISK_VER=$(unzip -c $tmp1 common/util_functions.sh | grep MAGISK_VER= | sed -E 's+MAGISK_VER="(.*)"+\1+')
++     MAGISK_VER_CODE=$(unzip -c $tmp1 common/util_functions.sh | grep MAGISK_VER_CODE= | cut -d= -f2 | tr -d ' ')
+   else
+      tmp2=$(unzip -c $tmp1 assets/util_functions.sh | grep "MAGISK_VER=")
+      MAGISK_VER=$(cut -d= -f2 <<<$tmp2 | sed "s|[',]||g")
++     MAGISK_VER_CODE=$(unzip -c $tmp1 assets/util_functions.sh | grep MAGISK_VER_CODE= | cut -d= -f2 | tr -d ' ')
+   fi
++  [[ "$MAGISK_VER" == *-alpha* ]] && MAGISK_VER="alpha($MAGISK_VER_CODE)"
++  [[ "$MAGISK_VER" == *-kitsune* ]] && MAGISK_VER="kitsune($MAGISK_VER_CODE)"
+ 
+   echo -e "${GREEN}-- Detected Magisk version: ${MAGISK_VER}${NC}"
+-  sed -i -E "s+\"magisk_ver\" value=\"(.*)\"+\"magisk_ver\" value=\"$MAGISK_VER\"+" $FOX_RAMDISK/twres/ui.xml
++  sed -i -E "s+\"magisk_ver\" value=\"[^\"]*\"+\"magisk_ver\" value=\"$MAGISK_VER\"+" "$FOX_RAMDISK/twres/ui.xml"
+ 
+   # Include text files
+   $CP -p $FOX_VENDOR_PATH/Files/credits.txt $FOX_RAMDISK/twres/credits.txt
+-- 
+2.52.0
+
