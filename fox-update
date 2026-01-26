@@ -5,18 +5,21 @@ cd ~/fox_12.1
 	cd ~/fox_12.1/bootable/recovery/
 	git reset --hard origin/fox_12.1
 	git pull
-	git fetch https://github.com/ymdzq/OrangeFox_Recovery fox_12.1 && git cherry-pick 69c5626b..e583736
+	git remote add ymdzq https://github.com/ymdzq/OrangeFox_Recovery && git fetch ymdzq fox_12.1
+	git merge --no-ff ymdzq/fox_12.1 -m "Apply custom patches"
 	cd ~/fox_12.1/vendor/recovery/
-	git checkout -- .  
+	git checkout -- .
 	git pull
-	cd ~/fox_12.1
-	[ -d external/libmicrohttpd ] && cd external/libmicrohttpd && git pull || git clone https://github.com/adontoo/android_external_libmicrohttpd -b ofox-14.1 external/libmicrohttpd
-	cd ~/fox_12.1/external/libmicrohttpd/
-	sed -i 's/^static enum MHD_Result send_response/static enum MHD_Result __attribute__((unused)) send_response/' server.c
-	cd ~/fox_12.1/bionic/
-	git checkout -- .  
-	wget "https://github.com/adontoo/OrangeFox-android_platform_bionic/commit/85b1a7100083006927376f30bb8a67885c6dd71f.patch" -O bionic.patch
-	git apply bionic.patch
+	curl -L --retry 3 "https://github.com/ymdzq/scripts/blob/main/Magisk_ver.patch?raw=true" -o Magisk_ver.patch
+	git apply Magisk_ver.patch
+#	cd ~/fox_12.1
+#	[ -d external/libmicrohttpd ] && cd external/libmicrohttpd && git pull || git clone https://github.com/adontoo/android_external_libmicrohttpd -b ofox-14.1 external/libmicrohttpd
+#	cd ~/fox_12.1/external/libmicrohttpd/
+#	sed -i 's/^static enum MHD_Result send_response/static enum MHD_Result __attribute__((unused)) send_response/' server.c
+#	cd ~/fox_12.1/bionic/
+#	git checkout -- .
+#	wget "https://github.com/adontoo/OrangeFox-android_platform_bionic/commit/85b1a7100083006927376f30bb8a67885c6dd71f.patch" -O bionic.patch
+#	git apply bionic.patch
 	cd ~
 	curl -L --retry 3 $(echo $(curl -s "https://api.github.com/repos/topjohnwu/Magisk/releases?per_page=1&include_prereleases=true") | jq -r '.[0].assets[] | select(.name | test("Magisk-.*\\.apk")) | .browser_download_url') -o Magisk.apk
 	unzip -q Magisk.apk "lib/*/libmagiskboot.so" -d ~/magiskboot
